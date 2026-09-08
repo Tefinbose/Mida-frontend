@@ -8,7 +8,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 // Logo
-import MidaLogo from "../../assets/MidaLogo.png";
+import MidaLogo from "../../assets/MidaLogo.png"; 
 
 const navLinks = [
   { name: "Home", path: "/" },
