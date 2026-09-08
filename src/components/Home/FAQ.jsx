@@ -1,51 +1,49 @@
 import { useState } from "react";
+import { motion, AnimatePresence } from "motion/react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faChevronDown,
-  faChevronUp,
-} from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 
 const faqs = [
   {
-    question: "What services does Mida Travels offer?",
+    question: "How do I book a travel package with Mida Travels?",
     answer:
-      "Mida Travels provides international and domestic tour packages, visa assistance, hotel reservations, group tours, destination weddings, luxury holidays, travel insurance, airport transfers and car rental services.",
+      "You can contact our travel experts through our website, phone, or WhatsApp. Our team will help you choose the right destination and package based on your travel preferences and budget.",
   },
   {
     question: "Can I customize my travel package?",
     answer:
-      "Yes. We create personalized travel experiences based on your budget, interests, travel dates and preferred destinations.",
+      "Yes. We offer customized travel packages based on your preferred destinations, travel dates, accommodation choices, activities, and budget.",
   },
   {
     question: "Do you provide visa assistance?",
     answer:
-      "Yes. We provide professional visa processing support including guidance for documentation, application procedures and submission requirements.",
+      "Yes. Mida Travels provides visa processing and travel documentation assistance. Our team guides you through the required documents and application process.",
   },
   {
-    question: "How early should I book my holiday package?",
+    question: "Do your packages include flights and hotels?",
     answer:
-      "We recommend booking at least 4 to 8 weeks in advance for international travel and 2 to 4 weeks in advance for domestic trips.",
+      "Package inclusions depend on the selected travel package. Many packages can include flights, hotels, sightseeing, transfers, and other travel services.",
   },
   {
-    question: "Are flights included in your tour packages?",
+    question: "Can I book packages for groups or families?",
     answer:
-      "Flight inclusion depends on the selected package. We offer both land-only packages and complete packages that include flights, accommodation, transfers and sightseeing.",
+      "Yes. We organize travel experiences for families, friends, corporate teams, educational groups, and other group travellers.",
   },
   {
-    question: "Do you arrange honeymoon packages?",
+    question: "Do you provide international and domestic packages?",
     answer:
-      "Yes. We offer specially curated honeymoon packages to destinations such as Maldives, Bali, Dubai, Thailand, Singapore and Sri Lanka.",
+      "Yes. Mida Travels offers both international and domestic travel packages to a variety of destinations.",
   },
   {
-    question: "Do you provide travel insurance?",
+    question: "Can you help with hotel bookings?",
     answer:
-      "Yes. We can arrange travel insurance coverage for unexpected situations such as medical emergencies, trip cancellations, delays and lost baggage.",
+      "Yes. We provide hotel and resort booking assistance and help you find accommodation that matches your preferences and budget.",
   },
   {
-    question: "Can you arrange group tours and corporate travel?",
+    question: "How can I contact Mida Travels?",
     answer:
-      "Yes. We organize group tours for families, educational institutions, corporate teams and organizations.",
+      "You can contact us through our Contact page, phone number, email, or WhatsApp. Our travel experts will be happy to assist you with your journey.",
   },
 ];
 
@@ -57,58 +55,150 @@ const FAQ = () => {
   };
 
   return (
-    <section className="bg-white px-6 py-24 lg:px-8">
-      <div className="mx-auto max-w-4xl">
+    <section className="bg-[#f7fafb] px-6 py-20 lg:px-8 lg:py-28">
+      <div className="mx-auto max-w-5xl">
         {/* Heading */}
-        <div className="text-center">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#1597A8]">
-            Frequently Asked Questions
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          className="mx-auto mb-14 max-w-2xl text-center"
+        >
+          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-[#1597A8]">
+            Need Help?
           </p>
 
           <h2 className="mt-4 text-4xl font-bold text-[#123B4A] md:text-5xl">
-            Everything You Need To Know
+            Frequently Asked
+            <span className="block text-[#1597A8]">Questions</span>
           </h2>
 
-          <p className="mx-auto mt-5 max-w-2xl text-gray-600">
-            Find answers to some of the most common questions about travelling
-            with Mida Travels.
+          <p className="mt-5 leading-relaxed text-gray-600">
+            Find answers to common questions about our travel packages,
+            bookings, visa assistance, and travel services.
           </p>
-        </div>
+        </motion.div>
 
         {/* FAQ List */}
-        <div className="mt-12 space-y-4">
-          {faqs.map((faq, index) => (
-            <div
-              key={index}
-              className="overflow-hidden rounded-xl border border-gray-200 bg-white"
-            >
-              <button
-                type="button"
-                onClick={() => toggleFAQ(index)}
-                className="flex w-full items-center justify-between gap-5 px-6 py-5 text-left"
+        <div className="space-y-4">
+          {faqs.map((faq, index) => {
+            const isOpen = openIndex === index;
+
+            return (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{
+                  duration: 0.5,
+                  delay: index * 0.08,
+                }}
+                className={`overflow-hidden rounded-2xl border transition duration-300 ${
+                  isOpen
+                    ? "border-[#1597A8] bg-white shadow-lg"
+                    : "border-gray-200 bg-white hover:border-[#1597A8]/50 hover:shadow-md"
+                }`}
               >
-                <span className="font-semibold text-[#123B4A]">
-                  {faq.question}
-                </span>
+                {/* Question */}
+                <button
+                  type="button"
+                  onClick={() => toggleFAQ(index)}
+                  className="flex w-full items-center justify-between gap-6 px-6 py-5 text-left"
+                >
+                  <span
+                    className={`text-base font-semibold transition md:text-lg ${
+                      isOpen ? "text-[#1597A8]" : "text-[#123B4A]"
+                    }`}
+                  >
+                    {faq.question}
+                  </span>
 
-                <FontAwesomeIcon
-                  icon={
-                    openIndex === index
-                      ? faChevronUp
-                      : faChevronDown
-                  }
-                  className="shrink-0 text-[#1597A8]"
-                />
-              </button>
+                  {/* Animated Icon */}
+                  <motion.div
+                    animate={{
+                      rotate: isOpen ? 180 : 0,
+                    }}
+                    transition={{
+                      duration: 0.3,
+                    }}
+                    className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full transition ${
+                      isOpen
+                        ? "bg-[#1597A8] text-white"
+                        : "bg-[#123B4A] text-white"
+                    }`}
+                  >
+                    <FontAwesomeIcon icon={isOpen ? faMinus : faPlus} />
+                  </motion.div>
+                </button>
 
-              {openIndex === index && (
-                <div className="border-t border-gray-100 px-6 py-5 text-sm leading-relaxed text-gray-600">
-                  {faq.answer}
-                </div>
-              )}
-            </div>
-          ))}
+                {/* Animated Answer */}
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                    <motion.div
+                      initial={{
+                        height: 0,
+                        opacity: 0,
+                      }}
+                      animate={{
+                        height: "auto",
+                        opacity: 1,
+                      }}
+                      exit={{
+                        height: 0,
+                        opacity: 0,
+                      }}
+                      transition={{
+                        duration: 0.35,
+                        ease: "easeInOut",
+                      }}
+                      className="overflow-hidden"
+                    >
+                      <div className="border-t border-gray-100 px-6 pb-6 pt-4">
+                        <p className="leading-relaxed text-gray-600">
+                          {faq.answer}
+                        </p>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            );
+          })}
         </div>
+
+        {/* Bottom CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mt-12 rounded-3xl bg-[#123B4A] px-8 py-10 text-center text-white"
+        >
+          <h3 className="text-2xl font-bold">Still Have Questions?</h3>
+
+          <p className="mx-auto mt-3 max-w-xl text-gray-300">
+            Our travel experts are ready to help you plan your perfect journey.
+          </p>
+
+          <a
+            href="/contact"
+            className="group relative mt-6 inline-block overflow-hidden rounded-full bg-[#1597A8] px-7 py-3 font-semibold text-white transition hover:bg-[#20B7C8]"
+          >
+            <span className="relative block overflow-hidden">
+              {/* Normal Text */}
+              <span className="block transition-transform duration-300 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+                Contact Us
+              </span>
+
+              {/* Hover Text */}
+              <span className="absolute left-0 top-full block w-full transition-transform duration-300 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+                Contact Us
+              </span>
+            </span>
+          </a>
+        </motion.div>
       </div>
     </section>
   );

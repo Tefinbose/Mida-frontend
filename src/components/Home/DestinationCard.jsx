@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { motion } from "motion/react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -7,28 +8,48 @@ import {
   faArrowRight,
 } from "@fortawesome/free-solid-svg-icons";
 
+import {
+  containerVariants,
+  cardVariants,
+} from "../common/animations";
+
 const DestinationCard = ({ destination }) => {
   return (
-    <div className="group overflow-hidden rounded-2xl bg-white shadow-lg transition duration-300 hover:-translate-y-2 hover:shadow-2xl">
+    <motion.div
+      variants={containerVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{
+        once: false,
+        amount: 0.2,
+      }}
+      className="group overflow-hidden rounded-2xl bg-white shadow-lg transition duration-300 hover:-translate-y-2 hover:shadow-2xl"
+    >
 
       {/* Image */}
-      <div className="relative h-72 overflow-hidden">
-
+      <motion.div
+        variants={cardVariants}
+        className="relative h-72 overflow-hidden"
+      >
         <img
           src={destination.image}
           alt={destination.name}
           className="h-full w-full object-cover transition duration-500 group-hover:scale-110"
         />
 
+        {/* Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 
+        {/* Destination Name */}
         <div className="absolute bottom-0 left-0 w-full p-6 text-white">
 
           <div className="flex items-center gap-2 text-sm text-gray-200">
 
             <FontAwesomeIcon icon={faLocationDot} />
 
-            {destination.country}
+            <span>
+              {destination.country}
+            </span>
 
           </div>
 
@@ -38,7 +59,7 @@ const DestinationCard = ({ destination }) => {
 
         </div>
 
-      </div>
+      </motion.div>
 
       {/* Content */}
       <div className="flex items-center justify-between p-5">
@@ -56,7 +77,7 @@ const DestinationCard = ({ destination }) => {
 
       </div>
 
-    </div>
+    </motion.div>
   );
 };
 
