@@ -87,38 +87,28 @@ const StarRating = ({ rating, size = "text-sm" }) => (
   </div>
 );
 
-const VerifiedTag = () => (
-  <span
-    className="inline-flex items-center gap-1 text-xs font-medium"
-    style={{ color: BRAND.teal }}
-  >
-    <FontAwesomeIcon icon={faCircleCheck} aria-hidden="true" />
-    Verified traveller
-  </span>
-);
-
 const TestimonialCard = ({ testimonial }) => {
   const { name, trip, text, rating, verified } = testimonial;
 
   return (
-    <article className="flex flex-col rounded-2xl border border-gray-100 bg-white p-7 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg">
+    <article className="flex w-[82%] shrink-0 snap-center flex-col rounded-2xl border border-gray-100 bg-white p-5 shadow-sm transition duration-300 sm:w-[320px] sm:p-6 md:w-auto md:shrink md:snap-none md:p-7 md:hover:-translate-y-1 md:hover:shadow-lg">
       <div className="flex items-start justify-between">
         <FontAwesomeIcon
           icon={faQuoteLeft}
           aria-hidden="true"
-          className="text-2xl opacity-20"
+          className="text-xl opacity-20 sm:text-2xl"
           style={{ color: BRAND.navy }}
         />
-        <StarRating rating={rating} />
+        <StarRating rating={rating} size="text-xs sm:text-sm" />
       </div>
 
-      <p className="mt-5 line-clamp-5 flex-1 text-sm leading-relaxed text-gray-600">
+      <p className="mt-4 line-clamp-3 flex-1 text-sm leading-relaxed text-gray-600 sm:mt-5 sm:line-clamp-5">
         {text}
       </p>
 
-      <div className="mt-6 flex items-center gap-3 border-t border-gray-100 pt-5">
+      <div className="mt-5 flex items-center gap-3 border-t border-gray-100 pt-4 sm:mt-6 sm:pt-5">
         <div
-          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-semibold text-white"
+          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-semibold text-white sm:h-10 sm:w-10 sm:text-sm"
           style={{ backgroundColor: BRAND.teal }}
           aria-hidden="true"
         >
@@ -127,7 +117,7 @@ const TestimonialCard = ({ testimonial }) => {
 
         <div>
           <div className="flex items-center gap-2">
-            <h3 className="font-bold" style={{ color: BRAND.navy }}>
+            <h3 className="text-sm font-bold sm:text-base" style={{ color: BRAND.navy }}>
               {name}
             </h3>
             {verified && (
@@ -135,12 +125,12 @@ const TestimonialCard = ({ testimonial }) => {
                 icon={faCircleCheck}
                 aria-hidden="true"
                 title="Verified traveller"
-                className="text-sm"
+                className="text-xs sm:text-sm"
                 style={{ color: BRAND.teal }}
               />
             )}
           </div>
-          <p className="mt-0.5 text-sm" style={{ color: BRAND.teal }}>
+          <p className="mt-0.5 text-xs sm:text-sm" style={{ color: BRAND.teal }}>
             {trip}
           </p>
         </div>
@@ -161,7 +151,7 @@ const Testimonials = () => {
     <section
       id="testimonials"
       aria-labelledby="testimonials-heading"
-      className="relative overflow-hidden bg-gray-50 px-6 py-24 lg:px-8"
+      className="relative overflow-hidden bg-gray-50 px-6 py-14 sm:py-20 lg:px-8 lg:py-24"
     >
       {/* soft ambient background, not decoration for its own sake — separates this section from the flat white/gray blocks around it */}
       <div
@@ -173,7 +163,7 @@ const Testimonials = () => {
       <div className="relative mx-auto max-w-7xl">
         <div className="mx-auto max-w-2xl text-center">
           <p
-            className="text-sm font-semibold uppercase tracking-[0.2em]"
+            className="text-xs font-semibold uppercase tracking-[0.2em] sm:text-sm"
             style={{ color: BRAND.teal }}
           >
             Memories Made With Mida
@@ -181,20 +171,20 @@ const Testimonials = () => {
 
           <h2
             id="testimonials-heading"
-            className="mt-4 text-4xl font-bold md:text-5xl"
+            className="mt-3 text-3xl font-bold sm:mt-4 sm:text-4xl md:text-5xl"
             style={{ color: BRAND.navy }}
           >
             Our Happy Travellers
           </h2>
 
-          <p className="mt-5 text-gray-600">
+          <p className="mt-3 text-sm text-gray-600 sm:mt-5 sm:text-base">
             Real experiences from travellers who explored the world with us.
           </p>
 
           {/* Ratings summary — built from the testimonials data itself, not a separate invented stat */}
-          <div className="mx-auto mt-8 flex w-fit items-center gap-4 rounded-2xl border border-gray-100 bg-white px-6 py-4 shadow-sm">
+          <div className="mx-auto mt-6 flex w-fit items-center gap-3 rounded-2xl border border-gray-100 bg-white px-5 py-3 shadow-sm sm:mt-8 sm:gap-4 sm:px-6 sm:py-4">
             <span
-              className="text-3xl font-bold"
+              className="text-2xl font-bold sm:text-3xl"
               style={{ color: BRAND.navy }}
             >
               {averageRating}
@@ -208,23 +198,26 @@ const Testimonials = () => {
           </div>
         </div>
 
-        {/* Featured testimonial — a single larger quote instead of every review carrying equal visual weight */}
-        <article className="relative mt-14 overflow-hidden rounded-3xl px-8 py-10 sm:px-14 sm:py-14" style={{ backgroundColor: BRAND.navy }}>
+        {/* Featured testimonial — condensed on mobile so it doesn't dominate the screen */}
+        <article
+          className="relative mt-8 overflow-hidden rounded-3xl px-6 py-7 sm:mt-14 sm:px-14 sm:py-14"
+          style={{ backgroundColor: BRAND.navy }}
+        >
           <FontAwesomeIcon
             icon={faQuoteLeft}
             aria-hidden="true"
-            className="text-5xl opacity-10"
+            className="text-3xl opacity-10 sm:text-5xl"
             style={{ color: "#fff" }}
           />
 
-          <p className="mt-4 max-w-3xl text-xl font-medium leading-relaxed text-white sm:text-2xl">
+          <p className="mt-3 line-clamp-3 max-w-3xl text-base font-medium leading-relaxed text-white sm:mt-4 sm:line-clamp-none sm:text-xl md:text-2xl">
             {featured.text}
           </p>
 
-          <div className="mt-8 flex flex-wrap items-center justify-between gap-6">
+          <div className="mt-5 flex flex-wrap items-center justify-between gap-4 sm:mt-8 sm:gap-6">
             <div className="flex items-center gap-3">
               <div
-                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-sm font-semibold text-white"
+                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-semibold text-white sm:h-11 sm:w-11 sm:text-sm"
                 style={{ backgroundColor: BRAND.teal }}
                 aria-hidden="true"
               >
@@ -232,29 +225,34 @@ const Testimonials = () => {
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <h3 className="font-bold text-white">{featured.name}</h3>
+                  <h3 className="text-sm font-bold text-white sm:text-base">{featured.name}</h3>
                   {featured.verified && (
                     <FontAwesomeIcon
                       icon={faCircleCheck}
                       aria-hidden="true"
                       title="Verified traveller"
-                      className="text-sm"
+                      className="text-xs sm:text-sm"
                       style={{ color: BRAND.gold }}
                     />
                   )}
                 </div>
-                <p className="mt-0.5 text-sm text-white/70">{featured.trip}</p>
+                <p className="mt-0.5 text-xs text-white/70 sm:text-sm">{featured.trip}</p>
               </div>
             </div>
-            <StarRating rating={featured.rating} size="text-base" />
+            <StarRating rating={featured.rating} size="text-sm sm:text-base" />
           </div>
         </article>
 
-        {/* Remaining reviews */}
-        <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {rest.map((testimonial) => (
-            <TestimonialCard key={testimonial.id} testimonial={testimonial} />
-          ))}
+        {/* Remaining reviews — horizontal swipe on mobile, grid from md up */}
+        <div className="mt-6 sm:mt-8">
+          <div className="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2 -mx-6 px-6 md:mx-0 md:grid md:snap-none md:gap-6 md:overflow-visible md:px-0 md:pb-0 md:grid-cols-2 lg:grid-cols-3">
+            {rest.map((testimonial) => (
+              <TestimonialCard key={testimonial.id} testimonial={testimonial} />
+            ))}
+          </div>
+          <p className="mt-2 text-center text-xs text-gray-400 md:hidden">
+            Swipe to read more reviews
+          </p>
         </div>
       </div>
     </section>

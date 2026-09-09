@@ -73,6 +73,22 @@ const Service = () => {
       blur-3xl
     "
         />
+        {/* Background Image */}
+                {/* <motion.div
+                  initial={{ scale: 1.08 }}
+                  animate={{ scale: 1 }}
+                  transition={{
+                    duration: 1.5,
+                    ease: "easeOut",
+                  }}
+                  className="absolute inset-0"
+                >
+                  <img
+                    src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?q=80&w=1174&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                    alt="Beautiful travel destination"
+                    className="h-full w-full object-cover"
+                  />
+                </motion.div> */}
 
         {/* Background Shape 2 */}
         <motion.div
@@ -166,7 +182,9 @@ const Service = () => {
       {/* =====================================================
           INTRODUCTION
       ===================================================== */}
-      <section className="bg-white px-6 py-20 lg:px-8">
+      <section className="bg-white px-6 py-20 lg:px-8"
+      
+      >
         <div className="mx-auto grid max-w-7xl items-center gap-14 lg:grid-cols-2">
           {/* LEFT */}
           <div>
@@ -195,7 +213,7 @@ const Service = () => {
 
             <Link
               to="/contact"
-              className="mt-8 inline-flex items-center gap-3 bg-[#123B4A] px-7 py-3 font-semibold text-white"
+              className="mt-8 inline-flex items-center gap-3 bg-[#123B4A] px-7 py-3 font-semibold text-white rounded-2xl"
             >
               Plan Your Journey
               <FontAwesomeIcon icon={faArrowRight} />
@@ -267,38 +285,220 @@ const Service = () => {
       {/* =====================================================
           CTA
       ===================================================== */}
-      <section className="bg-[#1597A8] px-6 py-20 text-white lg:px-8">
-        <div className="mx-auto max-w-4xl text-center">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-white/80">
-            Start Planning
-          </p>
+      {/* =====================================================
+    CTA
+===================================================== */}
+<section className="relative overflow-hidden px-6 py-24 lg:px-8">
 
-          <h2 className="mt-4 text-4xl font-bold md:text-5xl">
-            Ready To Start Your Journey?
-          </h2>
+  {/* Background Image */}
+  <motion.div
+    initial={{ scale: 1.08 }}
+    whileInView={{ scale: 1 }}
+    viewport={{ once: true }}
+    transition={{
+      duration: 1.5,
+      ease: "easeOut",
+    }}
+    className="absolute inset-0"
+  >
+    <img
+      src="https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1920&q=80"
+      alt="Travel destination"
+      className="h-full w-full object-cover"
+    />
+  </motion.div>
 
-          <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-white/80">
-            Let our travel experts help you plan a journey filled with
-            unforgettable experiences and beautiful memories.
-          </p>
+  {/* Dark Teal Overlay */}
+  <div className="absolute inset-0 bg-[#123B4A]/85" />
 
-          <div className="mt-8 flex flex-wrap justify-center gap-4">
-            <Link
-              to="/contact"
-              className="bg-white px-7 py-3 font-semibold text-[#123B4A]"
-            >
-              Contact Us
-            </Link>
+  {/* Gradient Overlay */}
+  <div className="absolute inset-0 bg-gradient-to-r from-[#123B4A]/95 via-[#123B4A]/80 to-[#1597A8]/70" />
 
-            <Link
-              to="/packages"
-              className="border border-white px-7 py-3 font-semibold text-white"
-            >
-              Explore Packages
-            </Link>
-          </div>
-        </div>
-      </section>
+  {/* Decorative Glow */}
+  <motion.div
+    initial={{ opacity: 0, scale: 0.7 }}
+    whileInView={{ opacity: 1, scale: 1 }}
+    viewport={{ once: true }}
+    transition={{ duration: 1.2 }}
+    className="absolute -left-32 -top-32 h-96 w-96 rounded-full bg-[#20B7C8]/20 blur-3xl"
+  />
+
+  <motion.div
+    initial={{ opacity: 0, scale: 0.7 }}
+    whileInView={{ opacity: 1, scale: 1 }}
+    viewport={{ once: true }}
+    transition={{ duration: 1.2, delay: 0.2 }}
+    className="absolute -bottom-40 -right-32 h-[450px] w-[450px] rounded-full bg-[#1597A8]/20 blur-3xl"
+  />
+
+  {/* Content */}
+  <motion.div
+    initial={{ opacity: 0, y: 35 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, amount: 0.3 }}
+    transition={{
+      duration: 0.8,
+      ease: [0.22, 1, 0.36, 1],
+    }}
+    className="relative z-10 mx-auto max-w-4xl text-center"
+  >
+
+    {/* Small Heading */}
+    <motion.p
+      initial={{ opacity: 0, y: 15 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6 }}
+      className="
+        text-xs
+        font-semibold
+        uppercase
+        tracking-[0.3em]
+        text-[#20B7C8]
+        md:text-sm
+      "
+    >
+      Start Planning
+    </motion.p>
+
+    {/* Main Heading */}
+    <motion.h2
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{
+        duration: 0.7,
+        delay: 0.1,
+      }}
+      className="
+        mt-5
+        text-4xl
+        font-bold
+        leading-tight
+        text-white
+        md:text-5xl
+        lg:text-6xl
+      "
+    >
+      Ready To Start Your Journey?
+    </motion.h2>
+
+    {/* Description */}
+    <motion.p
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{
+        duration: 0.7,
+        delay: 0.2,
+      }}
+      className="
+        mx-auto
+        mt-6
+        max-w-2xl
+        text-base
+        leading-8
+        text-gray-200
+        md:text-lg
+      "
+    >
+      Let our travel experts help you plan a journey filled with
+      unforgettable experiences and beautiful memories.
+    </motion.p>
+
+    {/* Buttons */}
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{
+        duration: 0.7,
+        delay: 0.35,
+      }}
+      className="mt-9 flex flex-col justify-center gap-4 sm:flex-row"
+    >
+
+      {/* Contact Button */}
+      <Link
+        to="/contact"
+        className="
+          group
+          relative
+          inline-flex
+          items-center
+          justify-center
+          gap-3
+          overflow-hidden
+          rounded-full
+          bg-white
+          px-8
+          py-4
+          font-semibold
+          text-[#123B4A]
+          transition-all
+          duration-300
+          hover:bg-[#20B7C8]
+          hover:text-white
+          hover:shadow-[0_12px_35px_rgba(32,183,200,0.3)]
+        "
+      >
+        <span className="relative z-10">
+          Contact Us
+        </span>
+
+        <FontAwesomeIcon
+          icon={faArrowRight}
+          className="
+            relative
+            z-10
+            transition-transform
+            duration-300
+            group-hover:translate-x-1
+          "
+        />
+      </Link>
+
+      {/* Packages Button */}
+      <Link
+        to="/packages"
+        className="
+          group
+          inline-flex
+          items-center
+          justify-center
+          gap-3
+          rounded-full
+          border
+          border-white/40
+          bg-white/10
+          px-8
+          py-4
+          font-semibold
+          text-white
+          backdrop-blur-md
+          transition-all
+          duration-300
+          hover:border-[#20B7C8]
+          hover:bg-[#20B7C8]
+          hover:shadow-[0_12px_35px_rgba(32,183,200,0.25)]
+        "
+      >
+        Explore Packages
+
+        <FontAwesomeIcon
+          icon={faArrowRight}
+          className="
+            transition-transform
+            duration-300
+            group-hover:translate-x-1
+          "
+        />
+      </Link>
+
+    </motion.div>
+
+  </motion.div>
+</section>
 
       {/* =====================================================
           SERVICE MODAL

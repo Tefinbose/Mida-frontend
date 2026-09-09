@@ -15,8 +15,9 @@ import TermsConditions from "./pages/TermsConditions";
 function App() {
   return (
     <>
-    <SmoothScroll/>
+   
       <ScrollToTop />
+       <SmoothScroll/>
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />

@@ -1,7 +1,5 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-
+import { useEffect, useMemo, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
 import {
   faLocationDot,
   faCheck,
@@ -11,7 +9,9 @@ import {
   faMagnifyingGlass,
   faHeart,
   faSliders,
+  faPhone,
 } from "@fortawesome/free-solid-svg-icons";
+import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 
 const PACKAGES = [
   {
@@ -193,17 +193,13 @@ const SORT_OPTIONS = [
   { value: "name-asc", label: "Name: A to Z" },
 ];
 
-const REGIONS = (() => {
-  const seen = new Set();
-  const regions = ["All"];
-  PACKAGES.forEach((pkg) => {
-    if (!seen.has(pkg.region)) {
-      seen.add(pkg.region);
-      regions.push(pkg.region);
-    }
-  });
-  return regions;
-})();
+const REGIONS = [
+  "All",
+  ...new Set(PACKAGES.map((pkg) => pkg.region)),
+];
+
+const WHATSAPP_NUMBER = "919876543210";
+const CALL_NUMBER = "+919876543210";
 
 const parsePrice = (price) =>
   price === "Contact Us" ? Infinity : Number(price.replace(/[^\d]/g, ""));
@@ -212,68 +208,10 @@ const Packages = () => {
   const [query, setQuery] = useState("");
   const [region, setRegion] = useState("All");
   const [sortBy, setSortBy] = useState("featured");
-  const [favorites, setFavorites] = useState(() => new Set());
-  const [loadedImages, setLoadedImages] = useState(() => new Set());
+  const [favorites, setFavorites] = useState(new Set());
+  const [loadedImages, setLoadedImages] = useState(new Set());
   const [selectedPackage, setSelectedPackage] = useState(null);
   const [isModalClosing, setIsModalClosing] = useState(false);
-  const [heroInView, setHeroInView] = useState(false);
-  const [whyChooseInView, setWhyChooseInView] = useState(false);
-
-  const heroRef = useRef(null);
-  const whyChooseRef = useRef(null);
-
-  // One shared IntersectionObserver setup for the two section-level
-  // reveal animations — no per-item hooks needed.
-  useEffect(() => {
-    const heroNode = heroRef.current;
-    const whyChooseNode = whyChooseRef.current;
-
-    const heroObserver = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setHeroInView(true);
-          heroObserver.disconnect();
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    const whyChooseObserver = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setWhyChooseInView(true);
-          whyChooseObserver.disconnect();
-        }
-      },
-      { threshold: 0.15, rootMargin: "0px 0px -60px 0px" }
-    );
-
-    if (heroNode) heroObserver.observe(heroNode);
-    if (whyChooseNode) whyChooseObserver.observe(whyChooseNode);
-
-    return () => {
-      heroObserver.disconnect();
-      whyChooseObserver.disconnect();
-    };
-  }, []);
-
-  // Escape key + body scroll lock while the modal is open
-  useEffect(() => {
-    if (!selectedPackage) return undefined;
-
-    document.body.style.overflow = "hidden";
-
-    const handleKeyDown = (e) => {
-      if (e.key === "Escape") closeModal();
-    };
-    window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      document.body.style.overflow = "";
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedPackage]);
 
   const toggleFavorite = (id) => {
     setFavorites((prev) => {
@@ -294,19 +232,38 @@ const Packages = () => {
 
   const closeModal = () => {
     setIsModalClosing(true);
-    window.setTimeout(() => {
+    setTimeout(() => {
       setSelectedPackage(null);
       setIsModalClosing(false);
     }, 200);
   };
 
+  useEffect(() => {
+    if (!selectedPackage) return;
+
+    document.body.style.overflow = "hidden";
+
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") closeModal();
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [selectedPackage]);
+
   const filteredPackages = useMemo(() => {
     let result = PACKAGES.filter((pkg) => {
+      const search = query.toLowerCase().trim();
       const matchesRegion = region === "All" || pkg.region === region;
       const matchesQuery =
-        query.trim() === "" ||
-        pkg.name.toLowerCase().includes(query.toLowerCase()) ||
-        pkg.location.toLowerCase().includes(query.toLowerCase());
+        !search ||
+        pkg.name.toLowerCase().includes(search) ||
+        pkg.location.toLowerCase().includes(search);
+
       return matchesRegion && matchesQuery;
     });
 
@@ -314,25 +271,22 @@ const Packages = () => {
       result = [...result].sort(
         (a, b) => parsePrice(a.price) - parsePrice(b.price)
       );
-    } else if (sortBy === "name-asc") {
-      result = [...result].sort((a, b) => a.name.localeCompare(b.name));
+    }
+
+    if (sortBy === "name-asc") {
+      result = [...result].sort((a, b) =>
+        a.name.localeCompare(b.name)
+      );
     }
 
     return result;
   }, [query, region, sortBy]);
 
-  // Changing this key remounts the grid, replaying the entrance
-  // animation whenever search/filter/sort changes.
-  const gridKey = `${query}-${region}-${sortBy}`;
-
   return (
     <>
-      {/* HERO SECTION */}
-      <section
-        ref={heroRef}
-        className="relative overflow-hidden bg-[#123B4A] px-6 py-28 text-white lg:px-8"
-      >
-        <div className="absolute inset-0 opacity-10">
+      {/* HERO */}
+      <section className="relative overflow-hidden bg-[#123B4A] px-6 py-28 text-white lg:px-8">
+        <div className="absolute inset-0 opacity-20">
           <img
             src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1920&q=80"
             alt=""
@@ -340,12 +294,12 @@ const Packages = () => {
           />
         </div>
 
-        <div
-          className={`relative mx-auto max-w-7xl text-center motion-safe:transition-all motion-safe:duration-700 motion-reduce:transition-none ${
-            heroInView ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
-          }`}
-        >
-          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#1597A8]">
+        <div className="absolute inset-0 bg-[#123B4A]/70" />
+        <div className="absolute -right-24 -top-24 h-80 w-80 rounded-full bg-[#1597A8]/20 blur-3xl" />
+        <div className="absolute -bottom-32 -left-24 h-80 w-80 rounded-full bg-[#20B7C8]/10 blur-3xl" />
+
+        <div className="relative mx-auto max-w-7xl text-center">
+          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#20B7C8]">
             Explore The World
           </p>
 
@@ -367,9 +321,11 @@ const Packages = () => {
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#1597A8]">
               Our Best Packages
             </p>
+
             <h2 className="mt-4 text-4xl font-bold text-[#123B4A] md:text-5xl">
               Find Your Perfect Journey
             </h2>
+
             <p className="mx-auto mt-5 max-w-2xl leading-relaxed text-gray-600">
               From luxury escapes and romantic honeymoons to adventure trips
               and family vacations, we have the perfect journey waiting for
@@ -377,30 +333,31 @@ const Packages = () => {
             </p>
           </div>
 
-          {/* SEARCH + FILTER TOOLBAR */}
+          {/* FILTER */}
           <div className="mb-10 space-y-5 rounded-2xl bg-white p-5 shadow-sm">
             <div className="flex flex-col gap-4 md:flex-row md:items-center">
               <div className="relative flex-1">
                 <FontAwesomeIcon
                   icon={faMagnifyingGlass}
-                  className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+                  className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
                 />
+
                 <input
                   type="text"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   placeholder="Search by destination or country..."
-                  className="w-full rounded-xl border border-gray-200 py-3 pl-11 pr-4 text-sm text-gray-700 outline-none transition focus:border-[#1597A8] focus:ring-2 focus:ring-[#1597A8]/20"
+                  className="w-full rounded-xl border border-gray-200 py-3 pl-11 pr-4 text-sm outline-none transition focus:border-[#1597A8] focus:ring-2 focus:ring-[#1597A8]/20"
                 />
               </div>
 
               <div className="flex items-center gap-2">
                 <FontAwesomeIcon icon={faSliders} className="text-gray-400" />
+
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  aria-label="Sort packages"
-                  className="rounded-xl border border-gray-200 px-4 py-3 text-sm text-gray-700 outline-none transition focus:border-[#1597A8]"
+                  className="rounded-xl border border-gray-200 px-4 py-3 text-sm outline-none focus:border-[#1597A8]"
                 >
                   {SORT_OPTIONS.map((option) => (
                     <option key={option.value} value={option.value}>
@@ -415,8 +372,8 @@ const Packages = () => {
               {REGIONS.map((r) => (
                 <button
                   key={r}
+                  type="button"
                   onClick={() => setRegion(r)}
-                  aria-pressed={region === r}
                   className={`rounded-full px-4 py-1.5 text-sm font-medium transition ${
                     region === r
                       ? "bg-[#123B4A] text-white"
@@ -435,9 +392,9 @@ const Packages = () => {
               ` · ${favorites.size} saved to your wishlist`}
           </p>
 
-          {/* PACKAGES GRID */}
+          {/* GRID */}
           {filteredPackages.length > 0 ? (
-            <div key={gridKey} className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
               {filteredPackages.map((item, index) => {
                 const isFavorite = favorites.has(item.id);
                 const isImageLoaded = loadedImages.has(item.id);
@@ -445,10 +402,8 @@ const Packages = () => {
                 return (
                   <div
                     key={item.id}
-                    style={{
-                      animationDelay: `${(index % 6) * 70}ms`,
-                    }}
-                    className="group motion-safe:animate-[fadeInUp_0.6s_ease-out_backwards] motion-reduce:animate-none overflow-hidden rounded-2xl bg-white shadow-md transition duration-300 hover:-translate-y-2 hover:shadow-2xl"
+                    style={{ animationDelay: `${index * 70}ms` }}
+                    className="group animate-[fadeInUp_0.6s_ease-out_backwards] overflow-hidden rounded-2xl bg-white shadow-md transition duration-300 hover:-translate-y-2 hover:shadow-2xl"
                   >
                     {/* IMAGE */}
                     <div className="relative h-64 overflow-hidden bg-gray-100">
@@ -467,7 +422,6 @@ const Packages = () => {
 
                       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
 
-                      {/* LOCATION */}
                       <div className="absolute left-5 top-5 flex items-center gap-2 rounded-full bg-white/90 px-4 py-2 text-xs font-semibold text-[#123B4A]">
                         <FontAwesomeIcon
                           icon={faLocationDot}
@@ -476,27 +430,29 @@ const Packages = () => {
                         {item.location}
                       </div>
 
-                      {/* FAVORITE */}
                       <button
+                        type="button"
                         onClick={(e) => {
                           e.stopPropagation();
                           toggleFavorite(item.id);
                         }}
                         aria-label={
-                          isFavorite ? "Remove from wishlist" : "Add to wishlist"
+                          isFavorite
+                            ? "Remove from wishlist"
+                            : "Add to wishlist"
                         }
-                        aria-pressed={isFavorite}
-                        className="absolute right-5 top-5 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-sm transition hover:scale-110"
+                        className="absolute right-5 top-5 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 transition hover:scale-110"
                       >
                         <FontAwesomeIcon
                           icon={faHeart}
-                          className={`transition-transform ${
-                            isFavorite ? "scale-110 text-rose-500" : "text-gray-300"
-                          }`}
+                          className={
+                            isFavorite
+                              ? "scale-110 text-rose-500"
+                              : "text-gray-300"
+                          }
                         />
                       </button>
 
-                      {/* TITLE */}
                       <h3 className="absolute bottom-5 left-5 text-2xl font-bold text-white">
                         {item.name}
                       </h3>
@@ -513,21 +469,48 @@ const Packages = () => {
                           <p className="text-xs uppercase tracking-wider text-gray-400">
                             Starting From
                           </p>
+
                           <h4 className="mt-1 text-xl font-bold text-[#123B4A]">
                             {item.price}
                           </h4>
+
                           {item.price !== "Contact Us" && (
-                            <p className="text-xs text-gray-400">Per Person</p>
+                            <p className="text-xs text-gray-400">
+                              Per Person
+                            </p>
                           )}
                         </div>
 
                         <button
+                          type="button"
                           onClick={() => openPackage(item)}
-                          aria-label={`View details for ${item.name}`}
-                          className="flex h-11 w-11 items-center justify-center rounded-full bg-[#1597A8] text-white transition duration-300 hover:bg-[#123B4A]"
+                          className="flex h-11 w-11 items-center justify-center rounded-full bg-[#1597A8] text-white transition hover:bg-[#123B4A]"
                         >
                           <FontAwesomeIcon icon={faArrowRight} />
                         </button>
+                      </div>
+
+                      {/* CONTACT BUTTONS */}
+                      <div className="mt-5 grid grid-cols-2 gap-3">
+                        <a
+                          href={`tel:${CALL_NUMBER}`}
+                          className="flex items-center justify-center gap-2 rounded-xl border border-gray-200 py-3 text-sm font-semibold text-[#123B4A] transition hover:border-[#1597A8] hover:bg-[#1597A8] hover:text-white"
+                        >
+                          <FontAwesomeIcon icon={faPhone} />
+                          Call
+                        </a>
+
+                        <a
+                          href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+                            `Hello Mida Travels, I'm interested in the ${item.name} package.`
+                          )}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center justify-center gap-2 rounded-xl bg-[#123B4A] py-3 text-sm font-semibold text-white transition hover:bg-[#1597A8]"
+                        >
+                          <FontAwesomeIcon icon={faWhatsapp} className="text-lg" />
+                          WhatsApp
+                        </a>
                       </div>
                     </div>
                   </div>
@@ -540,20 +523,25 @@ const Packages = () => {
                 icon={faMagnifyingGlass}
                 className="text-4xl text-gray-300"
               />
+
               <h3 className="mt-5 text-xl font-bold text-[#123B4A]">
                 No packages match your search
               </h3>
+
               <p className="mt-2 text-gray-500">
                 Try a different destination or clear your filters.
               </p>
+
               <button
+                type="button"
                 onClick={() => {
                   setQuery("");
                   setRegion("All");
+                  setSortBy("featured");
                 }}
-                className="mt-6 rounded-full bg-[#1597A8] px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-[#123B4A]"
+                className="mt-6 rounded-full bg-[#1597A8] px-6 py-2.5 text-sm font-semibold text-white hover:bg-[#123B4A]"
               >
-                Clear filters
+                Clear Filters
               </button>
             </div>
           )}
@@ -561,18 +549,17 @@ const Packages = () => {
       </section>
 
       {/* WHY CHOOSE */}
-      <section
-        ref={whyChooseRef}
-        className="bg-[#123B4A] px-6 py-20 text-white lg:px-8 lg:py-28"
-      >
+      <section className="bg-[#123B4A] px-6 py-20 text-white lg:px-8 lg:py-28">
         <div className="mx-auto max-w-7xl">
           <div className="mx-auto max-w-3xl text-center">
-            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#1597A8]">
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#20B7C8]">
               Travel With Confidence
             </p>
+
             <h2 className="mt-4 text-4xl font-bold md:text-5xl">
               Why Choose Our Packages?
             </h2>
+
             <p className="mt-5 leading-relaxed text-gray-300">
               Every journey is carefully designed to provide comfort,
               convenience, unforgettable experiences, and exceptional value.
@@ -588,21 +575,15 @@ const Packages = () => {
               "Visa assistance and travel guidance",
               "Competitive pricing with exceptional value",
               "Dedicated customer support throughout your journey",
-            ].map((item, index) => (
+            ].map((item) => (
               <div
                 key={item}
-                style={{
-                  transitionDelay: whyChooseInView ? `${index * 80}ms` : "0ms",
-                }}
-                className={`flex items-start gap-4 rounded-2xl border border-white/10 bg-white/5 p-6 motion-safe:transition-all motion-safe:duration-700 motion-reduce:transition-none ${
-                  whyChooseInView
-                    ? "translate-y-0 opacity-100"
-                    : "translate-y-6 opacity-0"
-                }`}
+                className="flex items-start gap-4 rounded-2xl border border-white/10 bg-white/5 p-6 transition hover:bg-white/10"
               >
                 <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#1597A8]">
                   <FontAwesomeIcon icon={faCheck} />
                 </div>
+
                 <p className="pt-2 font-medium text-gray-100">{item}</p>
               </div>
             ))}
@@ -613,7 +594,10 @@ const Packages = () => {
       {/* FINAL CTA */}
       <section className="bg-white px-6 py-20 text-center lg:px-8 lg:py-28">
         <div className="mx-auto max-w-3xl">
-          <FontAwesomeIcon icon={faPlane} className="text-5xl text-[#1597A8]" />
+          <FontAwesomeIcon
+            icon={faPlane}
+            className="text-5xl text-[#1597A8]"
+          />
 
           <h2 className="mt-6 text-4xl font-bold text-[#123B4A] md:text-5xl">
             Your Next Adventure Awaits
@@ -627,8 +611,11 @@ const Packages = () => {
           </p>
 
           <button
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            className="mt-8 inline-flex items-center gap-3 rounded-full bg-[#123B4A] px-8 py-4 font-semibold text-white transition duration-300 hover:gap-4 hover:bg-[#1597A8]"
+            type="button"
+            onClick={() =>
+              window.scrollTo({ top: 0, behavior: "smooth" })
+            }
+            className="mt-8 inline-flex items-center gap-3 rounded-full bg-[#123B4A] px-8 py-4 font-semibold text-white transition hover:gap-4 hover:bg-[#1597A8]"
           >
             Explore Our Packages
             <FontAwesomeIcon icon={faArrowRight} />
@@ -636,24 +623,24 @@ const Packages = () => {
         </div>
       </section>
 
-      {/* PACKAGE MODAL */}
+      {/* MODAL */}
       {selectedPackage && (
         <div
           role="dialog"
           aria-modal="true"
-          aria-labelledby="package-modal-title"
           onClick={closeModal}
-          className={`fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 motion-safe:transition-opacity motion-safe:duration-200 ${
+          className={`fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 transition-opacity duration-200 ${
             isModalClosing ? "opacity-0" : "opacity-100"
           }`}
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className={`max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-white motion-safe:transition-all motion-safe:duration-200 motion-reduce:transition-none ${
-              isModalClosing ? "scale-95 opacity-0" : "scale-100 opacity-100"
+            className={`max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-white transition-all duration-200 ${
+              isModalClosing
+                ? "scale-95 opacity-0"
+                : "scale-100 opacity-100"
             }`}
           >
-            {/* IMAGE */}
             <div className="relative h-64">
               <img
                 src={selectedPackage.image}
@@ -662,25 +649,21 @@ const Packages = () => {
               />
 
               <button
+                type="button"
                 onClick={closeModal}
-                autoFocus
                 aria-label="Close dialog"
-                className="absolute right-5 top-5 flex h-10 w-10 items-center justify-center rounded-full bg-white text-xl font-bold text-[#123B4A] transition hover:rotate-90 motion-safe:duration-300"
+                className="absolute right-5 top-5 flex h-10 w-10 items-center justify-center rounded-full bg-white text-xl font-bold text-[#123B4A] transition hover:rotate-90"
               >
                 ×
               </button>
             </div>
 
-            {/* MODAL CONTENT */}
             <div className="p-8">
               <p className="text-sm font-semibold uppercase tracking-widest text-[#1597A8]">
                 {selectedPackage.location}
               </p>
 
-              <h2
-                id="package-modal-title"
-                className="mt-3 text-3xl font-bold text-[#123B4A]"
-              >
+              <h2 className="mt-3 text-3xl font-bold text-[#123B4A]">
                 {selectedPackage.name}
               </h2>
 
@@ -688,45 +671,66 @@ const Packages = () => {
                 {selectedPackage.description}
               </p>
 
-              {/* PRICE */}
               <div className="mt-6 rounded-xl bg-gray-50 p-5">
-                <p className="text-sm text-gray-500">Package Starting From</p>
+                <p className="text-sm text-gray-500">
+                  Package Starting From
+                </p>
+
                 <h3 className="mt-2 text-3xl font-bold text-[#1597A8]">
                   {selectedPackage.price}
                 </h3>
+
                 {selectedPackage.price !== "Contact Us" && (
                   <p className="text-sm text-gray-500">Per Person</p>
                 )}
               </div>
 
-              {/* HIGHLIGHTS */}
               <h3 className="mt-8 text-2xl font-bold text-[#123B4A]">
                 Package Highlights
               </h3>
 
               <div className="mt-5 grid gap-4 sm:grid-cols-2">
-                {selectedPackage.highlights.map((highlight, index) => (
-                  <div
-                    key={highlight}
-                    style={{ animationDelay: `${index * 60}ms` }}
-                    className="flex motion-safe:animate-[fadeIn_0.4s_ease-out_backwards] motion-reduce:animate-none items-start gap-3"
-                  >
+                {selectedPackage.highlights.map((highlight) => (
+                  <div key={highlight} className="flex items-start gap-3">
                     <FontAwesomeIcon
                       icon={faCircleCheck}
                       className="mt-1 text-[#1597A8]"
                     />
+
                     <p className="text-gray-600">{highlight}</p>
                   </div>
                 ))}
               </div>
 
-              {/* BUTTON */}
+              <div className="mt-8 grid gap-3 sm:grid-cols-2">
+                <a
+                  href={`tel:${CALL_NUMBER}`}
+                  className="flex items-center justify-center gap-2 rounded-xl border border-[#123B4A] py-4 font-semibold text-[#123B4A] transition hover:bg-[#123B4A] hover:text-white"
+                >
+                  <FontAwesomeIcon icon={faPhone} />
+                  Call Us
+                </a>
+
+                <a
+                  href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+                    `Hello Mida Travels, I'm interested in the ${selectedPackage.name} package.`
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 rounded-xl bg-[#1597A8] py-4 font-semibold text-white transition hover:bg-[#123B4A]"
+                >
+                  <FontAwesomeIcon icon={faWhatsapp} />
+                  WhatsApp
+                </a>
+              </div>
+
               <button
+                type="button"
                 onClick={() => {
                   closeModal();
                   window.location.href = "/contact";
                 }}
-                className="mt-8 w-full rounded-xl bg-[#123B4A] py-4 font-semibold text-white transition hover:bg-[#1597A8]"
+                className="mt-3 w-full rounded-xl bg-[#123B4A] py-4 font-semibold text-white transition hover:bg-[#1597A8]"
               >
                 Enquire About This Package
               </button>

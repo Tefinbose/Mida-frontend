@@ -47,13 +47,68 @@ const Footer = () => {
             />
 
             <button
-              type="submit"
-              className="flex items-center justify-center gap-2 rounded-full bg-[#1597A8] px-7 py-4 font-semibold text-white transition duration-300 hover:bg-[#0f7d8c]"
-            >
-              Subscribe
+  type="submit"
+  className="
+    group
+    flex
+    items-center
+    justify-center
+    gap-2
+    rounded-full
+    bg-[#1597A8]
+    px-7
+    py-4
+    font-semibold
+    text-white
+    transition
+    duration-300
+    hover:bg-[#0f7d8c]
+  "
+>
+  <span className="relative block overflow-hidden">
+    
+    {/* Normal Text */}
+    <span
+      className="
+        block
+        transition-transform
+        duration-300
+        ease-[cubic-bezier(0.44,0,0.56,1)]
+        group-hover:-translate-y-full
+      "
+    >
+      Subscribe
+    </span>
 
-              <FontAwesomeIcon icon={faPaperPlane} />
-            </button>
+    {/* Hover Text */}
+    <span
+      className="
+        absolute
+        left-0
+        top-full
+        block
+        w-full
+        transition-transform
+        duration-300
+        ease-[cubic-bezier(0.44,0,0.56,1)]
+        group-hover:-translate-y-full
+      "
+    >
+      Subscribe
+    </span>
+
+  </span>
+
+  <FontAwesomeIcon
+    icon={faPaperPlane}
+    className="
+      transition-transform
+      duration-300
+      group-hover:translate-x-1
+      group-hover:-translate-y-1
+    "
+  />
+</button>
           </form>
         </div>
       </div>
