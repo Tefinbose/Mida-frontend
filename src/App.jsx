@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import ScrollToTop from "./components/common/ScrollToTop";
+import SmoothScroll from "./components/common/SmoothScroll";
 
 import MainLayout from "./Layouts/MainLayout";
 import Home from "./pages/Home";
@@ -14,6 +15,7 @@ import TermsConditions from "./pages/TermsConditions";
 function App() {
   return (
     <>
+    <SmoothScroll/>
       <ScrollToTop />
       <Routes>
         <Route element={<MainLayout />}>

@@ -1,66 +1,16 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { motion } from "motion/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faPhone,
   faEnvelope,
+  faPhone,
   faLocationDot,
   faClock,
   faPaperPlane,
-  faHeadset,
+  faGlobe,
 } from "@fortawesome/free-solid-svg-icons";
-import { motion } from "motion/react";
 
-// =====================================================
-// ANIMATION VARIANTS
-// =====================================================
-
-const fadeUp = {
-  hidden: {
-    opacity: 0,
-    y: 25,
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut",
-    },
-  },
-};
-
-const fadeLeft = {
-  hidden: {
-    opacity: 0,
-    x: -30,
-  },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut",
-    },
-  },
-};
-
-const fadeRight = {
-  hidden: {
-    opacity: 0,
-    x: 30,
-  },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut",
-    },
-  },
-};
-
-const stagger = {
+const staggerContainer = {
   hidden: {},
   visible: {
     transition: {
@@ -69,9 +19,20 @@ const stagger = {
   },
 };
 
-// =====================================================
-// CONTACT PAGE
-// =====================================================
+const fadeUp = {
+  hidden: {
+    opacity: 0,
+    y: 30,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
+};
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -82,10 +43,6 @@ const Contact = () => {
     message: "",
   });
 
-  // ===================================================
-  // HANDLE INPUT CHANGE
-  // ===================================================
-
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -93,488 +50,503 @@ const Contact = () => {
     });
   };
 
-  // ===================================================
-  // HANDLE FORM SUBMIT
-  // ===================================================
-
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    console.log(formData);
+    console.log("Contact Form Data:", formData);
 
-    alert("Thank you! Your message has been sent successfully.");
-
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-      subject: "",
-      message: "",
-    });
+    // Add your API call here
   };
 
   return (
-    <>
+    <main className="bg-white">
+
       {/* =====================================================
           HERO SECTION
-      ===================================================== */}
+      ====================================================== */}
+      <section className="relative flex min-h-[460px] items-center overflow-hidden bg-[#123B4A] px-6 pb-12 pt-28 text-white lg:min-h-[500px] lg:px-8 lg:pt-24">
 
-      <section className="relative flex min-h-[430px] w-full items-center overflow-hidden bg-[#123B4A] px-6 pb-10 pt-24 text-white lg:min-h-[480px] lg:px-8 lg:pt-20">
+        {/* Background Image */}
+        <motion.div
+          initial={{ scale: 1.08 }}
+          animate={{ scale: 1 }}
+          transition={{
+            duration: 1.5,
+            ease: "easeOut",
+          }}
+          className="absolute inset-0"
+        >
+          <img
+            src="https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1920&q=80"
+            alt="Beautiful travel destination"
+            className="h-full w-full object-cover"
+          />
+        </motion.div>
 
-        {/* Background Glow */}
+        {/* Dark Overlay */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{
+            duration: 1.2,
+          }}
+          className="absolute inset-0 bg-[#123B4A]/80"
+        />
 
-        <div className="absolute -right-32 -top-32 h-80 w-80 rounded-full bg-[#1597A8]/10 blur-3xl" />
+        {/* Gradient */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#123B4A]/30 via-[#123B4A]/60 to-[#123B4A]/95" />
 
-        <div className="absolute -bottom-32 -left-32 h-80 w-80 rounded-full bg-[#c4953d]/5 blur-3xl" />
-
-        {/* Decorative Circle */}
-
-        <div className="absolute right-[12%] top-[28%] hidden h-20 w-20 rounded-full border border-white/10 lg:block" />
-
-        <div className="absolute bottom-[18%] left-[10%] hidden h-14 w-14 rounded-full border border-[#1597A8]/20 lg:block" />
-
-        {/* Hero Content */}
+        {/* Decorative Glow */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.7 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{
+            duration: 1.4,
+            delay: 0.2,
+          }}
+          className="absolute -left-24 top-10 h-64 w-64 rounded-full bg-[#20B7C8]/10 blur-3xl"
+        />
 
         <motion.div
-          variants={stagger}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{
-            once: true,
-            amount: 0.3,
+          initial={{ opacity: 0, scale: 0.7 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{
+            duration: 1.4,
+            delay: 0.4,
           }}
-          className="relative z-10 mx-auto w-full max-w-3xl text-center"
-        >
-          {/* Label */}
+          className="absolute -right-24 bottom-0 h-72 w-72 rounded-full bg-[#1597A8]/10 blur-3xl"
+        />
 
+        {/* Hero Content */}
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          animate="visible"
+          className="relative z-10 mx-auto w-full max-w-4xl text-center"
+        >
+          {/* Icon */}
+          <motion.div
+            variants={fadeUp}
+            className="mx-auto flex h-14 w-14 items-center justify-center rounded-full border border-[#20B7C8]/30 bg-[#1597A8]/20 backdrop-blur-sm"
+          >
+            <FontAwesomeIcon
+              icon={faGlobe}
+              className="text-2xl text-[#20B7C8]"
+            />
+          </motion.div>
+
+          {/* Small Heading */}
           <motion.p
             variants={fadeUp}
-            className="text-xs font-semibold uppercase tracking-[0.25em] text-[#20B7C8]"
+            className="mt-5 text-xs font-semibold uppercase tracking-[0.25em] text-[#20B7C8]"
           >
-            Get In Touch
+            Let's Start Your Journey
           </motion.p>
 
-          {/* Heading */}
-
+          {/* Main Heading */}
           <motion.h1
             variants={fadeUp}
-            className="mt-4 text-4xl font-bold leading-tight md:text-5xl lg:text-6xl"
+            className="mt-3 text-4xl font-bold leading-tight md:text-5xl lg:text-6xl"
           >
-            Let's Plan Your Next Journey
+            Get In
+            <span className="block text-[#20B7C8]">
+              Touch
+            </span>
           </motion.h1>
 
           {/* Description */}
-
           <motion.p
             variants={fadeUp}
-            className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-gray-300 md:text-base"
+            className="mx-auto mt-4 max-w-2xl text-sm leading-6 text-gray-200 md:text-base md:leading-7"
           >
-            Have a question or planning your dream vacation?
-            Our travel experts are ready to help you create
-            unforgettable experiences.
+            Have questions about your next trip? Our travel experts
+            are here to help you plan a smooth and unforgettable journey.
           </motion.p>
         </motion.div>
       </section>
 
       {/* =====================================================
-          CONTACT INFORMATION CARDS
-      ===================================================== */}
+          CONTACT INFORMATION + FORM
+      ====================================================== */}
+      <section className="px-6 py-20 lg:px-8 lg:py-24">
+        <div className="mx-auto max-w-7xl">
 
-      <section className="relative z-10 -mt-10 px-6">
-        <motion.div
-          variants={stagger}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{
-            once: true,
-            amount: 0.2,
-          }}
-          className="mx-auto grid max-w-7xl gap-6 md:grid-cols-2 lg:grid-cols-4"
-        >
-          {/* =================================================
-              PHONE CARD
-          ================================================= */}
-
+          {/* Section Heading */}
           <motion.div
-            variants={fadeUp}
-            className="group rounded-2xl border border-[#dcebed] bg-white p-6 text-center shadow-[0_10px_30px_rgba(18,59,74,0.07)] transition-shadow duration-300 hover:shadow-[0_15px_40px_rgba(18,59,74,0.12)]"
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+            className="mx-auto mb-14 max-w-2xl text-center"
           >
-            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#1597A8]/10 text-xl text-[#1597A8] transition-colors duration-300 group-hover:bg-[#1597A8] group-hover:text-white">
-              <FontAwesomeIcon icon={faPhone} />
-            </div>
-
-            <h3 className="mt-4 text-lg font-bold text-[#123B4A]">
-              Call Us
-            </h3>
-
-            <a
-              href="tel:+919645123447"
-              className="mt-3 block text-sm text-gray-600 transition-colors duration-300 hover:text-[#1597A8]"
+            <motion.p
+              variants={fadeUp}
+              className="text-sm font-semibold uppercase tracking-[0.2em] text-[#1597A8]"
             >
-              +91 96451 23447
-            </a>
-
-            <a
-              href="tel:+971521037071"
-              className="mt-2 block text-sm text-gray-600 transition-colors duration-300 hover:text-[#1597A8]"
-            >
-              +971 52 103 7071
-            </a>
-          </motion.div>
-
-          {/* =================================================
-              EMAIL CARD
-          ================================================= */}
-
-          <motion.div
-            variants={fadeUp}
-            className="group rounded-2xl border border-[#dcebed] bg-white p-6 text-center shadow-[0_10px_30px_rgba(18,59,74,0.07)] transition-shadow duration-300 hover:shadow-[0_15px_40px_rgba(18,59,74,0.12)]"
-          >
-            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#1597A8]/10 text-xl text-[#1597A8] transition-colors duration-300 group-hover:bg-[#1597A8] group-hover:text-white">
-              <FontAwesomeIcon icon={faEnvelope} />
-            </div>
-
-            <h3 className="mt-4 text-lg font-bold text-[#123B4A]">
-              Email Us
-            </h3>
-
-            <a
-              href="mailto:info@midatravels.com"
-              className="mt-3 block text-sm text-gray-600 transition-colors duration-300 hover:text-[#1597A8]"
-            >
-              info@midatravels.com
-            </a>
-
-            <a
-              href="mailto:sales@midatravels.com"
-              className="mt-2 block text-sm text-gray-600 transition-colors duration-300 hover:text-[#1597A8]"
-            >
-              sales@midatravels.com
-            </a>
-          </motion.div>
-
-          {/* =================================================
-              LOCATION CARD
-          ================================================= */}
-
-          <motion.div
-            variants={fadeUp}
-            className="group rounded-2xl border border-[#dcebed] bg-white p-6 text-center shadow-[0_10px_30px_rgba(18,59,74,0.07)] transition-shadow duration-300 hover:shadow-[0_15px_40px_rgba(18,59,74,0.12)]"
-          >
-            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#1597A8]/10 text-xl text-[#1597A8] transition-colors duration-300 group-hover:bg-[#1597A8] group-hover:text-white">
-              <FontAwesomeIcon icon={faLocationDot} />
-            </div>
-
-            <h3 className="mt-4 text-lg font-bold text-[#123B4A]">
-              Visit Us
-            </h3>
-
-            <p className="mt-3 text-sm text-gray-600">
-              Dubai, UAE
-            </p>
-
-            <p className="mt-2 text-sm text-gray-500">
-              International Travel Services
-            </p>
-          </motion.div>
-
-          {/* =================================================
-              SUPPORT CARD
-          ================================================= */}
-
-          <motion.div
-            variants={fadeUp}
-            className="group rounded-2xl border border-[#dcebed] bg-white p-6 text-center shadow-[0_10px_30px_rgba(18,59,74,0.07)] transition-shadow duration-300 hover:shadow-[0_15px_40px_rgba(18,59,74,0.12)]"
-          >
-            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#1597A8]/10 text-xl text-[#1597A8] transition-colors duration-300 group-hover:bg-[#1597A8] group-hover:text-white">
-              <FontAwesomeIcon icon={faHeadset} />
-            </div>
-
-            <h3 className="mt-4 text-lg font-bold text-[#123B4A]">
-              Travel Support
-            </h3>
-
-            <p className="mt-3 text-sm text-gray-600">
-              Our travel experts are ready to assist you.
-            </p>
-
-            <p className="mt-2 text-sm font-semibold text-[#1597A8]">
-              Personalized Travel Support
-            </p>
-          </motion.div>
-        </motion.div>
-      </section>
-
-      {/* =====================================================
-          CONTACT FORM SECTION
-      ===================================================== */}
-
-      <section className="bg-[#f3f8f9] px-6 py-20 lg:px-8 lg:py-24">
-        <motion.div
-          variants={stagger}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{
-            once: true,
-            amount: 0.15,
-          }}
-          className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-2 lg:items-start"
-        >
-          {/* =================================================
-              LEFT CONTENT
-          ================================================= */}
-
-          <motion.div variants={fadeLeft}>
-            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#1597A8]">
               Contact Mida Travels
-            </p>
+            </motion.p>
 
-            <h2 className="mt-4 text-4xl font-bold leading-tight text-[#123B4A] md:text-5xl">
-              Start Your Journey With Us
-            </h2>
-
-            <p className="mt-6 leading-8 text-gray-600">
-              Whether you're planning a relaxing holiday, an
-              adventurous expedition, a honeymoon, a family
-              vacation, or corporate travel, our experienced
-              travel consultants are here to help.
-            </p>
-
-            <p className="mt-5 leading-8 text-gray-600">
-              Tell us about your dream destination, travel dates,
-              and preferences. We will help you create a
-              personalized travel experience.
-            </p>
-
-            {/* Travel Assistance */}
-
-            <div className="mt-8 flex items-start gap-4 rounded-2xl border border-[#dcebed] bg-white p-6 shadow-sm">
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#1597A8]/10 text-[#1597A8]">
-                <FontAwesomeIcon icon={faClock} />
-              </div>
-
-              <div>
-                <h3 className="font-bold text-[#123B4A]">
-                  Travel Assistance
-                </h3>
-
-                <p className="mt-2 text-sm leading-relaxed text-gray-600">
-                  Contact our team for travel planning, bookings,
-                  visa assistance, hotel reservations, and
-                  customized holiday packages.
-                </p>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* =================================================
-              CONTACT FORM
-          ================================================= */}
-
-          <motion.div
-            variants={fadeRight}
-            className="rounded-3xl border border-[#dcebed] bg-white p-7 shadow-[0_15px_45px_rgba(18,59,74,0.08)] md:p-10"
-          >
-            <h2 className="text-2xl font-bold text-[#123B4A]">
-              Send Us A Message
-            </h2>
-
-            <p className="mt-2 text-sm text-gray-500">
-              Fill out the form and our travel experts will get
-              back to you.
-            </p>
-
-            <form
-              onSubmit={handleSubmit}
-              className="mt-8 space-y-5"
+            <motion.h2
+              variants={fadeUp}
+              className="mt-3 text-3xl font-bold text-[#123B4A] md:text-4xl"
             >
-              {/* =================================================
-                  NAME
-              ================================================= */}
+              We're Here To Help
+            </motion.h2>
 
-              <div>
-                <label className="mb-2 block text-sm font-semibold text-[#123B4A]">
-                  Full Name
-                </label>
-
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  placeholder="Enter your full name"
-                  required
-                  className="w-full rounded-xl border border-gray-200 px-5 py-4 text-sm outline-none transition-all duration-300 placeholder:text-gray-400 focus:border-[#1597A8] focus:ring-4 focus:ring-[#1597A8]/10"
-                />
-              </div>
-
-              {/* =================================================
-                  EMAIL + PHONE
-              ================================================= */}
-
-              <div className="grid gap-5 md:grid-cols-2">
-                <div>
-                  <label className="mb-2 block text-sm font-semibold text-[#123B4A]">
-                    Email Address
-                  </label>
-
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    placeholder="Your email"
-                    required
-                    className="w-full rounded-xl border border-gray-200 px-5 py-4 text-sm outline-none transition-all duration-300 placeholder:text-gray-400 focus:border-[#1597A8] focus:ring-4 focus:ring-[#1597A8]/10"
-                  />
-                </div>
-
-                <div>
-                  <label className="mb-2 block text-sm font-semibold text-[#123B4A]">
-                    Phone Number
-                  </label>
-
-                  <input
-                    type="tel"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    placeholder="Your phone number"
-                    required
-                    className="w-full rounded-xl border border-gray-200 px-5 py-4 text-sm outline-none transition-all duration-300 placeholder:text-gray-400 focus:border-[#1597A8] focus:ring-4 focus:ring-[#1597A8]/10"
-                  />
-                </div>
-              </div>
-
-              {/* =================================================
-                  SUBJECT
-              ================================================= */}
-
-              <div>
-                <label className="mb-2 block text-sm font-semibold text-[#123B4A]">
-                  Subject
-                </label>
-
-                <select
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleChange}
-                  required
-                  className="w-full rounded-xl border border-gray-200 bg-white px-5 py-4 text-sm text-gray-600 outline-none transition-all duration-300 focus:border-[#1597A8] focus:ring-4 focus:ring-[#1597A8]/10"
-                >
-                  <option value="">
-                    Select a subject
-                  </option>
-
-                  <option value="Tour Package">
-                    Tour Package Inquiry
-                  </option>
-
-                  <option value="Visa Assistance">
-                    Visa Assistance
-                  </option>
-
-                  <option value="Hotel Booking">
-                    Hotel Booking
-                  </option>
-
-                  <option value="Flight Booking">
-                    Flight Booking
-                  </option>
-
-                  <option value="Destination Wedding">
-                    Destination Wedding
-                  </option>
-
-                  <option value="Other">
-                    Other
-                  </option>
-                </select>
-              </div>
-
-              {/* =================================================
-                  MESSAGE
-              ================================================= */}
-
-              <div>
-                <label className="mb-2 block text-sm font-semibold text-[#123B4A]">
-                  Your Message
-                </label>
-
-                <textarea
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  rows="5"
-                  placeholder="Tell us about your travel plans..."
-                  required
-                  className="w-full resize-none rounded-xl border border-gray-200 px-5 py-4 text-sm outline-none transition-all duration-300 placeholder:text-gray-400 focus:border-[#1597A8] focus:ring-4 focus:ring-[#1597A8]/10"
-                />
-              </div>
-
-              {/* =================================================
-                  SUBMIT BUTTON
-              ================================================= */}
-
-              <motion.button
-                type="submit"
-                whileTap={{ scale: 0.98 }}
-                className="flex w-full items-center justify-center gap-3 rounded-xl bg-[#123B4A] px-6 py-4 font-semibold text-white transition-all duration-300 hover:bg-[#1597A8] hover:shadow-lg hover:shadow-[#1597A8]/20"
-              >
-                Send Message
-
-                <FontAwesomeIcon icon={faPaperPlane} />
-              </motion.button>
-            </form>
+            <motion.p
+              variants={fadeUp}
+              className="mt-4 text-gray-500"
+            >
+              Whether you need help choosing a destination, booking a
+              package, or arranging your travel documents, our team is
+              ready to assist you.
+            </motion.p>
           </motion.div>
-        </motion.div>
+
+          <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
+
+            {/* =================================================
+                CONTACT DETAILS
+            ================================================== */}
+            <motion.div
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.15 }}
+              className="space-y-5"
+            >
+
+              {/* Email */}
+              <motion.div
+                variants={fadeUp}
+                className="rounded-2xl border border-gray-100 bg-[#F4F9F9] p-6 shadow-[0_8px_30px_rgba(18,59,74,0.05)]"
+              >
+                <div className="flex items-start gap-5">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#1597A8]/10 text-[#1597A8]">
+                    <FontAwesomeIcon icon={faEnvelope} />
+                  </div>
+
+                  <div>
+                    <h3 className="font-bold text-[#123B4A]">
+                      Email Us
+                    </h3>
+
+                    <p className="mt-1 text-sm text-gray-500">
+                      info@midatravels.com
+                    </p>
+
+                    <p className="mt-1 text-sm text-gray-500">
+                      We'll respond as soon as possible.
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Phone */}
+              <motion.div
+                variants={fadeUp}
+                className="rounded-2xl border border-gray-100 bg-[#F4F9F9] p-6 shadow-[0_8px_30px_rgba(18,59,74,0.05)]"
+              >
+                <div className="flex items-start gap-5">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#1597A8]/10 text-[#1597A8]">
+                    <FontAwesomeIcon icon={faPhone} />
+                  </div>
+
+                  <div>
+                    <h3 className="font-bold text-[#123B4A]">
+                      Call Us
+                    </h3>
+
+                    <p className="mt-1 text-sm text-gray-500">
+                      +91 XXXXX XXXXX
+                    </p>
+
+                    <p className="mt-1 text-sm text-gray-500">
+                      Our team is ready to assist you.
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Location */}
+              <motion.div
+                variants={fadeUp}
+                className="rounded-2xl border border-gray-100 bg-[#F4F9F9] p-6 shadow-[0_8px_30px_rgba(18,59,74,0.05)]"
+              >
+                <div className="flex items-start gap-5">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#1597A8]/10 text-[#1597A8]">
+                    <FontAwesomeIcon icon={faLocationDot} />
+                  </div>
+
+                  <div>
+                    <h3 className="font-bold text-[#123B4A]">
+                      Visit Us
+                    </h3>
+
+                    <p className="mt-1 text-sm leading-6 text-gray-500">
+                      Mida Travels
+                      <br />
+                      Kerala, India
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Working Hours */}
+              <motion.div
+                variants={fadeUp}
+                className="rounded-2xl border border-gray-100 bg-[#F4F9F9] p-6 shadow-[0_8px_30px_rgba(18,59,74,0.05)]"
+              >
+                <div className="flex items-start gap-5">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#1597A8]/10 text-[#1597A8]">
+                    <FontAwesomeIcon icon={faClock} />
+                  </div>
+
+                  <div>
+                    <h3 className="font-bold text-[#123B4A]">
+                      Working Hours
+                    </h3>
+
+                    <p className="mt-1 text-sm text-gray-500">
+                      Monday - Saturday
+                    </p>
+
+                    <p className="mt-1 text-sm text-gray-500">
+                      9:00 AM - 6:00 PM
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+
+            </motion.div>
+
+            {/* =================================================
+                CONTACT FORM
+            ================================================== */}
+            <motion.div
+              initial={{ opacity: 0, x: 40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{
+                duration: 0.7,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="rounded-3xl border border-gray-100 bg-white p-7 shadow-[0_15px_50px_rgba(18,59,74,0.08)] md:p-10"
+            >
+              <h3 className="text-2xl font-bold text-[#123B4A]">
+                Send Us A Message
+              </h3>
+
+              <p className="mt-2 text-sm text-gray-500">
+                Fill out the form and our travel team will get back to you.
+              </p>
+
+              <form
+                onSubmit={handleSubmit}
+                className="mt-8 space-y-5"
+              >
+
+                {/* Name + Email */}
+                <div className="grid gap-5 md:grid-cols-2">
+
+                  <div>
+                    <label className="mb-2 block text-sm font-semibold text-[#123B4A]">
+                      Your Name
+                    </label>
+
+                    <input
+                      type="text"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      placeholder="Enter your name"
+                      required
+                      className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3.5 text-sm outline-none transition focus:border-[#1597A8] focus:bg-white focus:ring-2 focus:ring-[#1597A8]/10"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="mb-2 block text-sm font-semibold text-[#123B4A]">
+                      Email Address
+                    </label>
+
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      placeholder="Enter your email"
+                      required
+                      className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3.5 text-sm outline-none transition focus:border-[#1597A8] focus:bg-white focus:ring-2 focus:ring-[#1597A8]/10"
+                    />
+                  </div>
+
+                </div>
+
+                {/* Phone + Subject */}
+                <div className="grid gap-5 md:grid-cols-2">
+
+                  <div>
+                    <label className="mb-2 block text-sm font-semibold text-[#123B4A]">
+                      Phone Number
+                    </label>
+
+                    <input
+                      type="tel"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      placeholder="Enter your phone number"
+                      className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3.5 text-sm outline-none transition focus:border-[#1597A8] focus:bg-white focus:ring-2 focus:ring-[#1597A8]/10"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="mb-2 block text-sm font-semibold text-[#123B4A]">
+                      Subject
+                    </label>
+
+                    <input
+                      type="text"
+                      name="subject"
+                      value={formData.subject}
+                      onChange={handleChange}
+                      placeholder="How can we help?"
+                      required
+                      className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-3.5 text-sm outline-none transition focus:border-[#1597A8] focus:bg-white focus:ring-2 focus:ring-[#1597A8]/10"
+                    />
+                  </div>
+
+                </div>
+
+                {/* Message */}
+                <div>
+                  <label className="mb-2 block text-sm font-semibold text-[#123B4A]">
+                    Message
+                  </label>
+
+                  <textarea
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    placeholder="Tell us about your travel plans..."
+                    rows="6"
+                    required
+                    className="w-full resize-none rounded-xl border border-gray-200 bg-gray-50 px-4 py-3.5 text-sm outline-none transition focus:border-[#1597A8] focus:bg-white focus:ring-2 focus:ring-[#1597A8]/10"
+                  />
+                </div>
+
+                {/* Submit Button */}
+                <button
+                  type="submit"
+                  className="group inline-flex w-full items-center justify-center gap-3 rounded-xl bg-[#123B4A] px-6 py-4 font-semibold text-white transition-all duration-300 hover:bg-[#1597A8]"
+                >
+                  Send Message
+
+                  <FontAwesomeIcon
+                    icon={faPaperPlane}
+                    className="text-sm transition-transform duration-300 group-hover:translate-x-1"
+                  />
+                </button>
+
+              </form>
+            </motion.div>
+
+          </div>
+        </div>
       </section>
 
       {/* =====================================================
           BOTTOM CTA
-      ===================================================== */}
+      ====================================================== */}
+      <section className="px-6 pb-20 lg:px-8 lg:pb-24">
+        <div className="mx-auto max-w-7xl">
 
-      <section className="relative overflow-hidden bg-[#123B4A] px-6 py-20 text-center text-white">
-
-        {/* Background Glow */}
-
-        <div className="absolute -right-32 -top-32 h-80 w-80 rounded-full bg-[#1597A8]/10 blur-3xl" />
-
-        <div className="absolute -bottom-32 -left-32 h-80 w-80 rounded-full bg-[#c4953d]/5 blur-3xl" />
-
-        {/* CTA Content */}
-
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{
-            once: true,
-            amount: 0.3,
-          }}
-          className="relative z-10 mx-auto max-w-3xl"
-        >
-          <h2 className="text-3xl font-bold md:text-4xl">
-            Your Next Adventure Starts Here
-          </h2>
-
-          <p className="mt-5 leading-7 text-gray-300">
-            From dream destinations to unforgettable experiences,
-            Mida Travels is here to make your journey seamless
-            and memorable.
-          </p>
-
-          <a
-            href="tel:+919645123447"
-            className="mt-8 inline-flex items-center gap-3 rounded-full bg-[#1597A8] px-8 py-4 font-semibold text-white transition-all duration-300 hover:-translate-y-1 hover:bg-[#20B7C8] hover:shadow-lg hover:shadow-[#20B7C8]/20"
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.6 }}
+            className="relative flex min-h-[340px] items-center overflow-hidden rounded-3xl px-8 py-12 text-center text-white"
           >
-            <FontAwesomeIcon icon={faPhone} />
 
-            Talk To A Travel Expert
-          </a>
-        </motion.div>
+            {/* Background Image */}
+            <motion.div
+              initial={{ scale: 1.08 }}
+              whileInView={{ scale: 1 }}
+              viewport={{ once: true }}
+              transition={{
+                duration: 1.5,
+                ease: "easeOut",
+              }}
+              className="absolute inset-0"
+            >
+              <img
+                src="https://images.unsplash.com/photo-1527631746610-bca00a040d60?auto=format&fit=crop&w=1920&q=80"
+                alt="Travel experience"
+                className="h-full w-full object-cover"
+              />
+            </motion.div>
+
+            {/* Overlay */}
+            <div className="absolute inset-0 bg-[#123B4A]/80" />
+
+            {/* Gradient */}
+            <div className="absolute inset-0 bg-gradient-to-b from-[#123B4A]/40 via-[#123B4A]/60 to-[#123B4A]/95" />
+
+            {/* Glow */}
+            <div className="absolute -left-24 top-0 h-64 w-64 rounded-full bg-[#20B7C8]/10 blur-3xl" />
+
+            <div className="absolute -right-24 bottom-0 h-72 w-72 rounded-full bg-[#1597A8]/10 blur-3xl" />
+
+            {/* Content */}
+            <motion.div
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.3 }}
+              className="relative z-10 mx-auto max-w-3xl"
+            >
+              <motion.h3
+                variants={fadeUp}
+                className="text-2xl font-bold md:text-3xl"
+              >
+                Still Have Questions?
+              </motion.h3>
+
+              <motion.p
+                variants={fadeUp}
+                className="mx-auto mt-3 max-w-xl text-gray-200"
+              >
+                Our travel experts are ready to help you plan your perfect journey.
+              </motion.p>
+
+              <motion.div variants={fadeUp}>
+                <a
+                  href="/contact"
+                  className="group relative mt-6 inline-block overflow-hidden rounded-full bg-[#1597A8] px-7 py-3 font-semibold text-white transition hover:bg-[#20B7C8]"
+                >
+                  <span className="relative block overflow-hidden">
+
+                    <span className="block transition-transform duration-300 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+                      Contact Us
+                    </span>
+
+                    <span className="absolute left-0 top-full block w-full transition-transform duration-300 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+                      Contact Us
+                    </span>
+
+                  </span>
+                </a>
+              </motion.div>
+
+            </motion.div>
+          </motion.div>
+
+        </div>
       </section>
-    </>
+
+    </main>
   );
 };
 
