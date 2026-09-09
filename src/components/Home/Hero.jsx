@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
+
+const SLIDE_DURATION =4000;
 
 const slides = [
   {
@@ -49,41 +51,66 @@ const slides = [
 const Hero = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  // Automatic slider
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentSlide((prevSlide) => {
-        return (prevSlide + 1) % slides.length;
-      });
-    }, 5000);
-
-    return () => clearInterval(interval);
+  const goTo = useCallback((index) => {
+    setCurrentSlide((index + slides.length) % slides.length);
   }, []);
 
-  return (
-    <section className="relative h-screen overflow-hidden">
-      {/* Hero Background Image */}
-      <img
-        src={slides[currentSlide].image}
-        alt={slides[currentSlide].title}
-        className="absolute inset-0 h-full w-full object-cover transition-opacity duration-700"
-      />
+  const next = useCallback(() => goTo(currentSlide + 1), [currentSlide, goTo]);
+  const prev = useCallback(() => goTo(currentSlide - 1), [currentSlide, goTo]);
 
-      {/* Dark Overlay */}
-      <div className="absolute inset-0 bg-black/50" />
+  // Automatic slider — always advances, regardless of hover/focus
+  useEffect(() => {
+    const interval = setInterval(next, SLIDE_DURATION);
+    return () => clearInterval(interval);
+  }, [next]);
+
+  return (
+    <section className="relative h-screen overflow-hidden bg-[#0C2530]">
+      {/* Slides — stacked and crossfaded, each with a slow Ken Burns zoom */}
+      {slides.map((slide, index) => (
+        <div
+          key={slide.image}
+          className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+            index === currentSlide ? "opacity-100" : "opacity-0"
+          }`}
+          aria-hidden={index !== currentSlide}
+        >
+          <img
+            src={slide.image}
+            alt=""
+            className={`h-full w-full object-cover motion-safe:transition-transform motion-safe:duration-[7000ms] motion-safe:ease-out ${
+              index === currentSlide ? "scale-110" : "scale-100"
+            }`}
+            loading={index === 0 ? "eager" : "lazy"}
+            fetchPriority={index === 0 ? "high" : "auto"}
+          />
+        </div>
+      ))}
+
+      {/* Gradient overlay — heavier at the bottom for text/control legibility */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/35 to-black/70" />
 
       {/* Content */}
       <div className="relative z-10 flex h-full items-center justify-center px-6 text-center text-white">
-        <div className="max-w-4xl">
-          <p className="mb-5 text-sm font-semibold uppercase tracking-[0.3em] text-[#20B7C8] md:text-base">
+        <div className="max-w-4xl" aria-live="polite">
+          <p
+            key={`eyebrow-${currentSlide}`}
+            className="mb-5 animate-[fade-in-up_0.6s_ease-out] text-sm font-semibold uppercase tracking-[0.3em] text-[#20B7C8] md:text-base"
+          >
             Welcome To Mida Travels
           </p>
 
-          <h1 className="text-4xl font-bold leading-tight md:text-6xl lg:text-7xl">
+          <h1
+            key={`title-${currentSlide}`}
+            className="animate-[fade-in-up_0.6s_ease-out_0.1s_both] text-4xl font-bold leading-tight md:text-6xl lg:text-7xl"
+          >
             {slides[currentSlide].title}
           </h1>
 
-          <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-gray-200 md:text-lg">
+          <p
+            key={`subtitle-${currentSlide}`}
+            className="mx-auto mt-6 max-w-2xl animate-[fade-in-up_0.6s_ease-out_0.2s_both] text-base leading-relaxed text-gray-200 md:text-lg"
+          >
             {slides[currentSlide].subtitle}
           </p>
 
@@ -97,7 +124,6 @@ const Hero = () => {
                 <span className="block transition-transform duration-300 ease-[cubic-bezier(0.44,0.0,0.56,1)] group-hover:-translate-y-full">
                   Explore Packages
                 </span>
-
                 <span className="absolute left-0 top-full block transition-transform duration-300 ease-[cubic-bezier(0.44,0.0,0.56,1)] group-hover:-translate-y-full">
                   Explore Packages
                 </span>
@@ -113,7 +139,6 @@ const Hero = () => {
                 <span className="block transition-transform duration-300 ease-[cubic-bezier(0.44,0.0,0.56,1)] group-hover:-translate-y-full">
                   Plan Your Journey
                 </span>
-
                 <span className="absolute left-0 top-full block transition-transform duration-300 ease-[cubic-bezier(0.44,0.0,0.56,1)] group-hover:-translate-y-full">
                   Plan Your Journey
                 </span>
@@ -123,22 +148,72 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Slider Dots */}
+      {/* Prev / Next arrows */}
+      <button
+        type="button"
+        aria-label="Previous slide"
+        onClick={prev}
+        className="group absolute left-3 top-1/2 z-20 hidden -translate-y-1/2 rounded-full border border-white/25 bg-white/10 p-3 text-white backdrop-blur-md transition hover:bg-white/25 sm:flex md:left-6"
+      >
+        <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5 transition group-hover:-translate-x-0.5">
+          <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </button>
+      <button
+        type="button"
+        aria-label="Next slide"
+        onClick={next}
+        className="group absolute right-3 top-1/2 z-20 hidden -translate-y-1/2 rounded-full border border-white/25 bg-white/10 p-3 text-white backdrop-blur-md transition hover:bg-white/25 sm:flex md:right-6"
+      >
+        <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5 transition group-hover:translate-x-0.5">
+          <path d="M9 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </button>
+
+      {/* Slide indicators with autoplay progress */}
       <div className="absolute bottom-10 left-1/2 z-20 flex -translate-x-1/2 gap-3">
         {slides.map((slide, index) => (
           <button
-            key={index}
+            key={slide.image}
             type="button"
             aria-label={`Go to slide ${index + 1}`}
-            onClick={() => setCurrentSlide(index)}
-            className={`h-3 rounded-full transition-all duration-300 ${
-              currentSlide === index
-                ? "w-8 bg-[#20B7C8]"
-                : "w-3 bg-white/60 hover:bg-white"
+            aria-current={currentSlide === index}
+            onClick={() => goTo(index)}
+            className={`relative h-1.5 overflow-hidden rounded-full bg-white/30 transition-all duration-300 ${
+              currentSlide === index ? "w-10" : "w-4 hover:bg-white/50"
             }`}
-          />
+          >
+            {currentSlide === index && (
+              <span
+                key={`progress-${currentSlide}`}
+                className="absolute inset-y-0 left-0 block bg-[#20B7C8]"
+                style={{
+                  animation: `slide-progress ${SLIDE_DURATION}ms linear forwards`,
+                }}
+              />
+            )}
+          </button>
         ))}
       </div>
+
+      Scroll cue
+      {/* <div className="absolute bottom-24 left-1/2 z-20 hidden -translate-x-1/2 flex-col items-center gap-2 text-white/70 sm:flex">
+        <span className="text-[11px] font-medium uppercase tracking-[0.25em]">Scroll</span>
+        <span className="h-8 w-5 rounded-full border border-white/40 p-1">
+          <span className="block h-1.5 w-1.5 animate-bounce rounded-full bg-white/80" />
+        </span>
+      </div> */}
+
+      <style>{`
+        @keyframes fade-in-up {
+          from { opacity: 0; transform: translateY(14px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slide-progress {
+          from { width: 0%; }
+          to { width: 100%; }
+        }
+      `}</style>
     </section>
   );
 };
