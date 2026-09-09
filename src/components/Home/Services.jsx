@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import {
@@ -9,6 +10,7 @@ import {
   faGem,
   faCar,
   faMapLocationDot,
+  faArrowRight,
 } from "@fortawesome/free-solid-svg-icons";
 
 const services = [
@@ -65,12 +67,10 @@ const services = [
 const Services = () => {
   return (
     <section className="bg-gray-50 px-6 py-24 lg:px-8">
-
       <div className="mx-auto max-w-7xl">
 
         {/* Heading */}
         <div className="mx-auto max-w-2xl text-center">
-
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#1597A8]">
             Our Services
           </p>
@@ -86,40 +86,49 @@ const Services = () => {
             From planning your trip to creating unforgettable memories,
             Mida Travels takes care of every detail.
           </p>
-
         </div>
 
         {/* Services Grid */}
         <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-
           {services.map((service) => (
             <div
               key={service.title}
               className="group rounded-2xl bg-white p-7 shadow-sm transition duration-300 hover:-translate-y-2 hover:shadow-xl"
             >
-
               {/* Icon */}
               <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#1597A8]/10 text-2xl text-[#1597A8] transition group-hover:bg-[#1597A8] group-hover:text-white">
-
                 <FontAwesomeIcon icon={service.icon} />
-
               </div>
 
+              {/* Title */}
               <h3 className="mt-6 text-xl font-bold text-[#123B4A]">
                 {service.title}
               </h3>
 
+              {/* Description */}
               <p className="mt-3 text-sm leading-relaxed text-gray-500">
                 {service.description}
               </p>
-
             </div>
           ))}
+        </div>
 
+        {/* View All Services Button */}
+        <div className="mt-12 flex justify-center">
+          <Link
+            to="/services"
+            className="inline-flex items-center gap-3 rounded-full bg-[#123B4A] px-7 py-3.5 font-semibold text-white transition duration-300 hover:bg-[#1597A8]"
+          >
+            View All Services
+
+            <FontAwesomeIcon
+              icon={faArrowRight}
+              className="text-sm"
+            />
+          </Link>
         </div>
 
       </div>
-
     </section>
   );
 };

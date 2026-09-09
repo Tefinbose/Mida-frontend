@@ -1,53 +1,135 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { motion } from "motion/react";
 
-const ServiceCard = ({ service }) => {
+const ServiceCard = ({ service, onExplore, index }) => {
   return (
-    <div className="group rounded-2xl border border-gray-100 bg-white p-7 shadow-sm transition duration-300 hover:-translate-y-2 hover:shadow-xl">
-      
+    <motion.article
+      initial={{ opacity: 0, y: 45 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.15 }}
+      transition={{
+        duration: 0.55,
+        delay: index * 0.08,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+      whileHover={{ y: -8 }}
+      className="
+        group
+        relative
+        flex
+        h-full
+        flex-col
+        overflow-hidden
+        rounded-2xl
+        border
+        border-gray-100
+        bg-white
+        p-7
+        shadow-[0_8px_30px_rgba(18,59,74,0.06)]
+        transition-shadow
+        duration-300
+        hover:shadow-[0_20px_45px_rgba(18,59,74,0.12)]
+      "
+    >
+      {/* Top Accent */}
+      <div
+        className="
+          absolute
+          left-0
+          top-0
+          h-1
+          w-0
+          bg-[#1597A8]
+          transition-all
+          duration-500
+          group-hover:w-full
+        "
+      />
+
       {/* Icon */}
-      <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[#1597A8]/10 text-3xl text-[#1597A8] transition duration-300 group-hover:bg-[#1597A8] group-hover:text-white">
-        <FontAwesomeIcon icon={service.icon} />
-      </div>
+      <motion.div
+        whileHover={{ scale: 1.08 }}
+        transition={{ duration: 0.25 }}
+        className="
+          flex
+          h-16
+          w-16
+          items-center
+          justify-center
+          rounded-2xl
+          bg-[#F0F8F9]
+          text-[#1597A8]
+          transition-colors
+          duration-300
+          group-hover:bg-[#1597A8]
+          group-hover:text-white
+        "
+      >
+        <FontAwesomeIcon icon={service.icon} className="text-2xl" />
+      </motion.div>
 
       {/* Title */}
-      <h2 className="mt-6 text-2xl font-bold text-[#123B4A]">
+      <h3
+        className="
+          mt-7
+          text-xl
+          font-bold
+          leading-snug
+          text-[#123B4A]
+        "
+      >
         {service.title}
-      </h2>
+      </h3>
 
       {/* Description */}
-      <p className="mt-4 leading-relaxed text-gray-600">
-        {service.description}
+      <p
+        className="
+          mt-4
+          flex-1
+          text-sm
+          leading-7
+          text-gray-500
+        "
+      >
+        {service.shortDescription}
       </p>
 
-      {/* Details */}
-      <p className="mt-4 text-sm leading-relaxed text-gray-500">
-        {service.details}
-      </p>
+      {/* Button */}
+      <button
+        type="button"
+        onClick={() => onExplore(service)}
+        className="
+          mt-7
+          inline-flex
+          w-fit
+          items-center
+          gap-3
+          rounded-lg
+          bg-[#123B4A]
+          px-5
+          py-3
+          text-sm
+          font-semibold
+          text-white
+          transition-all
+          duration-300
+          hover:bg-[#1597A8]
+        "
+      >
+        Explore Service
 
-      {/* Features */}
-      <div className="mt-6">
-        <h3 className="mb-4 font-semibold text-[#123B4A]">
-          What's Included
-        </h3>
-
-        <ul className="space-y-3">
-          {service.features.map((feature, index) => (
-            <li
-              key={index}
-              className="flex items-center gap-3 text-sm text-gray-600"
-            >
-              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#1597A8]/10 text-xs text-[#1597A8]">
-                <FontAwesomeIcon icon={faCheck} />
-              </span>
-
-              {feature}
-            </li>
-          ))}
-        </ul>
-      </div>
-
-    </div>
+        <FontAwesomeIcon
+          icon={faArrowRight}
+          className="
+            text-xs
+            transition-transform
+            duration-300
+            group-hover:translate-x-1
+          "
+        />
+      </button>
+    </motion.article>
   );
 };
 

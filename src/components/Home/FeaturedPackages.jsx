@@ -9,6 +9,7 @@ import {
   domesticPackages,
   offers,
 } from "../../Data/packages";
+import {motion} from "motion/react"
 
 const FeaturedPackages = () => {
   const [activeTab, setActiveTab] = useState("international");
@@ -86,7 +87,7 @@ const FeaturedPackages = () => {
         </div>
 
         {/* Packages */}
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <motion.div  className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
 
           {activePackages.map((item) => (
             <div
@@ -130,7 +131,7 @@ const FeaturedPackages = () => {
             </div>
           ))}
 
-        </div>
+        </motion.div>
 
         {/* Explore Button */}
         <div className="mt-12 text-center">
