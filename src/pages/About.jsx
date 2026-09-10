@@ -19,6 +19,7 @@ import {
   faBullseye,
   faEye,
   faArrowRight,
+  faUser
 } from "@fortawesome/free-solid-svg-icons";
 import { motion } from "motion/react";
 
@@ -115,7 +116,6 @@ const About = () => {
       {/* ================= HERO ================= */}
 
       <section className="relative flex min-h-[430px] w-full items-center overflow-hidden bg-[#123B4A] px-6 pb-10 pt-24 text-white lg:min-h-[480px] lg:px-8 lg:pt-20">
-
         <div className="absolute -right-32 -top-32 h-80 w-80 rounded-full bg-[#1597A8]/10 blur-3xl" />
 
         <div className="absolute -bottom-32 -left-32 h-80 w-80 rounded-full bg-[#c4953d]/5 blur-3xl" />
@@ -141,17 +141,15 @@ const About = () => {
             className="mt-4 text-4xl font-bold leading-tight md:text-5xl lg:text-6xl"
           >
             23 Years Of Delivering
-            <span className="block text-[#20B7C8]">
-              Happy Travels
-            </span>
+            <span className="block text-[#20B7C8]">Happy Travels</span>
           </motion.h1>
 
           <motion.p
             variants={fadeUp}
             className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-gray-300 md:text-base"
           >
-            Your trusted travel partner for unforgettable journeys,
-            meaningful experiences and memories that last a lifetime.
+            Your trusted travel partner for unforgettable journeys, meaningful
+            experiences and memories that last a lifetime.
           </motion.p>
         </motion.div>
       </section>
@@ -160,7 +158,6 @@ const About = () => {
 
       <section className="bg-white px-6 py-20 lg:px-8 lg:py-24">
         <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-2">
-
           {/* Images */}
 
           <motion.div
@@ -197,29 +194,27 @@ const About = () => {
 
             <h2 className="mt-4 text-4xl font-bold leading-tight text-[#123B4A] md:text-5xl">
               Creating Journeys
-              <span className="block text-[#1597A8]">
-                Worth Remembering
-              </span>
+              <span className="block text-[#1597A8]">Worth Remembering</span>
             </h2>
 
             <p className="mt-6 leading-7 text-gray-600">
-              Founded with a passion for travel and a commitment to
-              excellence, Mida Travels has become a trusted partner
-              for individuals, families, corporate travelers, groups
-              and honeymooners seeking seamless and memorable journeys.
+              Founded with a passion for travel and a commitment to excellence,
+              Mida Travels has become a trusted partner for individuals,
+              families, corporate travelers, groups and honeymooners seeking
+              seamless and memorable journeys.
             </p>
 
             <p className="mt-4 leading-7 text-gray-600">
-              Our team of experienced travel professionals works
-              tirelessly to ensure that every trip is tailored to meet
-              the unique preferences, interests and budgets of our clients.
+              Our team of experienced travel professionals works tirelessly to
+              ensure that every trip is tailored to meet the unique preferences,
+              interests and budgets of our clients.
             </p>
 
             <p className="mt-4 leading-7 text-gray-600">
-              From exotic beach holidays and luxury escapes to cultural
-              tours, adventure trips, destination weddings and corporate
-              travel arrangements, we provide comprehensive travel
-              services designed to make every journey stress-free.
+              From exotic beach holidays and luxury escapes to cultural tours,
+              adventure trips, destination weddings and corporate travel
+              arrangements, we provide comprehensive travel services designed to
+              make every journey stress-free.
             </p>
 
             <div className="mt-7 flex items-center gap-4 rounded-2xl border border-[#dcebed] bg-[#f5fafb] p-4">
@@ -248,7 +243,6 @@ const About = () => {
 
       <section className="bg-[#f3f8f9] px-6 py-20 lg:px-8 lg:py-24">
         <div className="mx-auto max-w-7xl">
-
           <motion.div
             variants={fadeUp}
             initial="hidden"
@@ -268,9 +262,8 @@ const About = () => {
             </h2>
 
             <p className="mt-5 leading-7 text-gray-600">
-              We offer a complete range of travel and tourism services
-              designed to make your journey comfortable, seamless and
-              unforgettable.
+              We offer a complete range of travel and tourism services designed
+              to make your journey comfortable, seamless and unforgettable.
             </p>
           </motion.div>
 
@@ -315,19 +308,19 @@ const About = () => {
             <p className="leading-7 text-gray-600">
               At Mida Travel, customer satisfaction is at the heart of
               everything we do. We are committed to delivering exceptional
-              service, transparent communication and carefully curated
-              travel experiences that exceed expectations.
+              service, transparent communication and carefully curated travel
+              experiences that exceed expectations.
             </p>
 
             <p className="mt-4 leading-7 text-gray-600">
-              Our goal is to eliminate the complexities of travel planning
-              so that our clients can focus on enjoying their journey.
+              Our goal is to eliminate the complexities of travel planning so
+              that our clients can focus on enjoying their journey.
             </p>
 
             <p className="mt-4 leading-7 text-gray-600">
               We continuously stay updated with global travel trends,
-              destination insights and industry developments to provide
-              the best recommendations and travel solutions.
+              destination insights and industry developments to provide the best
+              recommendations and travel solutions.
             </p>
           </motion.div>
         </div>
@@ -343,7 +336,6 @@ const About = () => {
           viewport={{ once: true, amount: 0.2 }}
           className="mx-auto grid max-w-7xl gap-6 md:grid-cols-2"
         >
-
           {/* Mission */}
 
           <motion.div
@@ -351,25 +343,20 @@ const About = () => {
             className="rounded-3xl border border-white/10 bg-white/[0.06] p-8 backdrop-blur-sm transition-colors duration-300 hover:bg-white/[0.09] md:p-10"
           >
             <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-[#1597A8]">
-              <FontAwesomeIcon
-                icon={faBullseye}
-                className="text-xl"
-              />
+              <FontAwesomeIcon icon={faBullseye} className="text-xl" />
             </div>
 
             <p className="mt-6 text-xs font-semibold uppercase tracking-[0.2em] text-[#20B7C8]">
               Our Mission
             </p>
 
-            <h2 className="mt-3 text-3xl font-bold">
-              Making Travel Better
-            </h2>
+            <h2 className="mt-3 text-3xl font-bold">Making Travel Better</h2>
 
             <p className="mt-5 leading-7 text-gray-300">
-              To provide exceptional travel experiences through
-              personalized service, innovative travel solutions and
-              a commitment to excellence, helping travelers explore
-              the world with confidence and convenience.
+              To provide exceptional travel experiences through personalized
+              service, innovative travel solutions and a commitment to
+              excellence, helping travelers explore the world with confidence
+              and convenience.
             </p>
           </motion.div>
 
@@ -380,25 +367,20 @@ const About = () => {
             className="rounded-3xl border border-white/10 bg-white/[0.06] p-8 backdrop-blur-sm transition-colors duration-300 hover:bg-white/[0.09] md:p-10"
           >
             <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-[#1597A8]">
-              <FontAwesomeIcon
-                icon={faEye}
-                className="text-xl"
-              />
+              <FontAwesomeIcon icon={faEye} className="text-xl" />
             </div>
 
             <p className="mt-6 text-xs font-semibold uppercase tracking-[0.2em] text-[#20B7C8]">
               Our Vision
             </p>
 
-            <h2 className="mt-3 text-3xl font-bold">
-              Inspiring The World
-            </h2>
+            <h2 className="mt-3 text-3xl font-bold">Inspiring The World</h2>
 
             <p className="mt-5 leading-7 text-gray-300">
-              To become one of the most trusted and preferred travel
-              agencies by delivering outstanding customer experiences,
-              building lasting relationships and inspiring people to
-              discover the beauty and diversity of destinations worldwide.
+              To become one of the most trusted and preferred travel agencies by
+              delivering outstanding customer experiences, building lasting
+              relationships and inspiring people to discover the beauty and
+              diversity of destinations worldwide.
             </p>
           </motion.div>
         </motion.div>
@@ -408,7 +390,6 @@ const About = () => {
 
       <section className="bg-white px-6 py-20 lg:px-8 lg:py-24">
         <div className="mx-auto max-w-7xl">
-
           <motion.div
             variants={fadeUp}
             initial="hidden"
@@ -425,8 +406,8 @@ const About = () => {
             </h2>
 
             <p className="mt-5 text-gray-600">
-              We combine experience, global connections and personalized
-              service to create unforgettable travel experiences.
+              We combine experience, global connections and personalized service
+              to create unforgettable travel experiences.
             </p>
           </motion.div>
 
@@ -475,17 +456,76 @@ const About = () => {
             </p>
 
             <p className="mt-3 font-medium text-[#123B4A]">
-              Let Mida Travel be your trusted companion in discovering
-              the world—one destination at a time.
+              Let Mida Travel be your trusted companion in discovering the
+              world—one destination at a time.
             </p>
           </motion.div>
         </div>
       </section>
+      {/* ================= TESTIMONIAL ================= */}
+
+      <section className="relative overflow-hidden bg-[#EAF8F9] px-6 py-20 lg:px-8 lg:py-24">
+        {/* Background glow */}
+        <div className="pointer-events-none absolute -left-32 top-10 h-72 w-72 rounded-full bg-[#20B7C8]/15 blur-3xl" />
+        <div className="pointer-events-none absolute -right-32 bottom-0 h-80 w-80 rounded-full bg-[#1597A8]/10 blur-3xl" />
+
+        {/* Decorative circles */}
+        <div className="pointer-events-none absolute left-[8%] top-[20%] hidden h-32 w-32 rounded-full border border-[#1597A8]/10 lg:block" />
+        <div className="pointer-events-none absolute right-[10%] top-[25%] hidden h-20 w-20 rounded-full border border-[#1597A8]/10 lg:block" />
+
+        {/* Subtle grid */}
+        <div
+          className="pointer-events-none absolute inset-0 opacity-[0.035]"
+          style={{
+            backgroundImage:
+              "linear-gradient(#123B4A 1px, transparent 1px), linear-gradient(90deg, #123B4A 1px, transparent 1px)",
+            backgroundSize: "45px 45px",
+          }}
+        />
+
+        {/* Large quote */}
+        <div className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 font-serif text-[130px] leading-none text-[#123B4A]/10">
+          
+        </div>
+
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          className="relative z-10 mx-auto max-w-5xl text-center"
+        >
+          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[#1597A8]">
+            A Word From Our Team
+          </p>
+
+          <blockquote className="mx-auto mt-8 max-w-4xl font-serif text-2xl leading-relaxed text-[#123B4A] sm:text-3xl md:text-4xl">
+            “Driven by expertise and a genuine personal touch, the team at Mida
+            Travels consistently delivers seamless, customized journeys that
+            make every trip truly rewarding.”
+          </blockquote>
+
+          <motion.div
+            initial={{ opacity: 0, y: 15, scale: 0.9 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.15 }}
+            className="mt-10 flex flex-col items-center"
+          >
+            <div className="flex h-16 w-16 items-center justify-center overflow-hidden rounded-full bg-white text-[#1597A8] shadow-md ring-4 ring-white/70">
+              <FontAwesomeIcon icon={faUser} className="text-2xl" />
+            </div>
+
+            <p className="mt-4 font-semibold text-[#123B4A]">Jithin Hussain</p>
+
+            <p className="mt-1 text-xs text-gray-500">Mida Travels</p>
+          </motion.div>
+        </motion.div>
+      </section>
 
       {/* ================= CTA ================= */}
 
-      <section className="relative overflow-hidden bg-[#1597A8] px-6 py-16 text-center text-white lg:px-8 lg:py-20">
-
+      {/* <section className="relative overflow-hidden bg-[#1597A8] px-6 py-16 text-center text-white lg:px-8 lg:py-20">
         <div className="absolute -right-24 -top-24 h-64 w-64 rounded-full bg-white/10 blur-3xl" />
 
         <motion.div
@@ -500,8 +540,8 @@ const About = () => {
           </h2>
 
           <p className="mt-4 text-white/85">
-            Let our travel experts help you plan a journey you will
-            never forget.
+            Let our travel experts help you plan a journey you will never
+            forget.
           </p>
 
           <Link
@@ -509,14 +549,13 @@ const About = () => {
             className="group mt-7 inline-flex items-center gap-3 rounded-full bg-[#123B4A] px-8 py-4 font-semibold text-white transition-all duration-300 hover:-translate-y-1 hover:bg-white hover:text-[#123B4A]"
           >
             Plan Your Journey
-
             <FontAwesomeIcon
               icon={faArrowRight}
               className="transition-transform duration-300 group-hover:translate-x-1"
             />
           </Link>
         </motion.div>
-      </section>
+      </section> */}
     </>
   );
 };

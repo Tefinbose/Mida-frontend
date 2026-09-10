@@ -28,10 +28,9 @@ const Home = () => {
       <Events />
 
       <Testimonials />
+      <Stats />
 
       <FAQ />
-
-      <Stats />
 
       {/* <Newsletter /> */}
     </>
