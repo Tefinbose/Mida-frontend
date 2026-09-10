@@ -1,5 +1,5 @@
 import Hero from "../components/Home/Hero";
-import TravelSearch from "../components/Home/TravelSearch";
+// import TravelSearch from "../components/Home/TravelSearch";
 import PopularDestinations from "../components/Home/PopularDestinations";
 import WhoWeAre from "../components/Home/WhoWeAre";
 import Services from "../components/Home/Services";
@@ -15,7 +15,7 @@ const Home = () => {
     <>
       <Hero />
 
-      <TravelSearch />
+      {/* <TravelSearch /> */}
 
       <PopularDestinations />
 

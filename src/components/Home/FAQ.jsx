@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from "motion/react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
+import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 
 const faqs = [
   {
@@ -174,30 +176,77 @@ const FAQ = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="mt-12 rounded-3xl bg-[#123B4A] px-8 py-10 text-center text-white"
+          className="relative mt-12 overflow-hidden rounded-3xl bg-[#123B4A] px-6 py-10 text-center text-white sm:px-8 sm:py-12"
         >
-          <h3 className="text-2xl font-bold">Still Have Questions?</h3>
+          {/* Background glow */}
+          <div className="pointer-events-none absolute -right-20 -top-20 h-48 w-48 rounded-full bg-[#1597A8]/20 blur-3xl" />
 
-          <p className="mx-auto mt-3 max-w-xl text-gray-300">
-            Our travel experts are ready to help you plan your perfect journey.
-          </p>
+          <div className="pointer-events-none absolute -bottom-20 -left-20 h-48 w-48 rounded-full bg-[#20B7C8]/10 blur-3xl" />
 
-          <a
-            href="/contact"
-            className="group relative mt-6 inline-block overflow-hidden rounded-full bg-[#1597A8] px-7 py-3 font-semibold text-white transition hover:bg-[#20B7C8]"
-          >
-            <span className="relative block overflow-hidden">
-              {/* Normal Text */}
-              <span className="block transition-transform duration-300 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
-                Contact Us
-              </span>
+          <div className="relative z-10">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#20B7C8]">
+              Need Help Planning?
+            </p>
 
-              {/* Hover Text */}
-              <span className="absolute left-0 top-full block w-full transition-transform duration-300 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
-                Contact Us
-              </span>
-            </span>
-          </a>
+            <h3 className="mt-2 text-2xl font-bold sm:text-3xl">
+              Still Have Questions?
+            </h3>
+
+            <p className="mx-auto mt-3 max-w-xl text-sm leading-6 text-white/65 sm:text-base">
+              Our travel experts are ready to help you plan your perfect
+              journey. Get in touch with us and let's start planning your next
+              adventure.
+            </p>
+
+            {/* Buttons */}
+            <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row">
+              {/* Contact Us */}
+              <Link
+                to="/contact"
+                className="group inline-flex h-11 items-center justify-center gap-2 overflow-hidden rounded-full bg-[#1597A8] px-7 text-sm font-semibold text-white transition-all duration-300 hover:bg-[#20B7C8] hover:shadow-lg hover:shadow-[#1597A8]/20"
+              >
+                <span className="relative block overflow-hidden">
+                  {/* Normal */}
+                  <span className="block transition-transform duration-300 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+                    Contact Us
+                  </span>
+
+                  {/* Hover */}
+                  <span className="absolute left-0 top-full block w-full transition-transform duration-300 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
+                    Contact Us
+                  </span>
+                </span>
+
+                <span className="transition-transform duration-300 group-hover:translate-x-1">
+                  →
+                </span>
+              </Link>
+
+              {/* WhatsApp */}
+              <a
+                href="https://wa.me/91234567890"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex h-11 items-center justify-center gap-2 rounded-full border border-white/20 bg-white/10 px-7 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-300 hover:border-white/30 hover:bg-white/15 hover:shadow-lg"
+              >
+                <FontAwesomeIcon
+                  icon={faWhatsapp}
+                  className="text-base transition-transform duration-300 group-hover:scale-110"
+                />
+
+                <span>WhatsApp Us</span>
+
+                <span className="transition-transform duration-300 group-hover:translate-x-1">
+                  →
+                </span>
+              </a>
+            </div>
+
+            {/* Small trust text */}
+            <p className="mt-5 text-[10px] text-white/40 sm:text-xs">
+              Quick response • Personalized assistance • No obligation
+            </p>
+          </div>
         </motion.div>
       </div>
     </section>
