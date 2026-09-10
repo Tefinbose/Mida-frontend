@@ -8,7 +8,7 @@ import Events from "../components/Home/Events";
 import Testimonials from "../components/Home/Testimonials";
 import FAQ from "../components/Home/FAQ";
 import Stats from "../components/Home/Stats";
-import Newsletter from "../components/Home/Newsletter";
+// import Newsletter from "../components/Home/Newsletter";
 
 const Home = () => {
   return (
@@ -33,7 +33,7 @@ const Home = () => {
 
       <Stats />
 
-      <Newsletter />
+      {/* <Newsletter /> */}
     </>
   );
 };

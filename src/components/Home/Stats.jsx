@@ -1,11 +1,9 @@
-import { motion } from "motion/react";
-
+import { motion, useReducedMotion } from "motion/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
 import {
   faGlobe,
-  faPlane,
-  faSmile,
+  faPlaneDeparture,
+  faFaceSmile,
 } from "@fortawesome/free-solid-svg-icons";
 
 const stats = [
@@ -15,198 +13,194 @@ const stats = [
     label: "Destinations",
   },
   {
-    icon: faPlane,
+    icon: faPlaneDeparture,
     number: "500+",
     label: "Tours Completed",
   },
   {
-    icon: faSmile,
+    icon: faFaceSmile,
     number: "1000+",
     label: "Happy Customers",
   },
 ];
 
-const containerVariants = {
-  hidden: {
-    opacity: 0,
-  },
-
-  visible: {
-    opacity: 1,
-
-    transition: {
-      staggerChildren: 0.15,
-      delayChildren: 0.1,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: {
-    opacity: 0,
-    y: 30,
-  },
-
-  visible: {
-    opacity: 1,
-    y: 0,
-
-    transition: {
-      duration: 0.6,
-      ease: "easeOut",
-    },
-  },
-};
-
 const Stats = () => {
+  const reducedMotion = useReducedMotion();
+
   return (
-    <section className="relative overflow-hidden bg-[#123B4A] px-6 py-20 text-white lg:px-8 lg:py-24">
-      {/* Background Decorations */}
-      <div className="absolute -left-24 top-1/2 h-64 w-64 -translate-y-1/2 rounded-full bg-[#1597A8]/10 blur-3xl" />
+    <section className="relative overflow-hidden bg-[#123B4A] px-5 py-12 text-white sm:px-6 sm:py-16 lg:px-8 lg:py-20">
 
-      <div className="absolute -right-24 top-0 h-72 w-72 rounded-full bg-[#20B7C8]/10 blur-3xl" />
+      {/* Background Glow */}
+      <div className="pointer-events-none absolute -left-24 top-1/2 h-56 w-56 -translate-y-1/2 rounded-full bg-[#20B7C8]/10 blur-3xl" />
+      <div className="pointer-events-none absolute -right-24 top-0 h-64 w-64 rounded-full bg-[#1597A8]/10 blur-3xl" />
 
-      {/* Content */}
-      <div className="relative mx-auto max-w-6xl">
+      <div className="relative mx-auto max-w-5xl">
 
-        {/* Section Header */}
+        {/* Heading */}
         <motion.div
-          initial={{
-            opacity: 0,
-            y: 25,
-          }}
-          whileInView={{
-            opacity: 1,
-            y: 0,
-          }}
-          viewport={{
-            once: true,
-            amount: 0.3,
-          }}
-          transition={{
-            duration: 0.6,
-          }}
-          className="mx-auto mb-14 max-w-2xl text-center"
+          initial={reducedMotion ? false : { opacity: 0, y: 20 }}
+          whileInView={reducedMotion ? {} : { opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="mx-auto mb-9 max-w-xl text-center sm:mb-12"
         >
-          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-[#20B7C8]">
+          <motion.p
+            initial={reducedMotion ? false : { opacity: 0, letterSpacing: "0.05em" }}
+            whileInView={
+              reducedMotion
+                ? {}
+                : { opacity: 1, letterSpacing: "0.2em" }
+            }
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="text-[10px] font-semibold uppercase text-[#20B7C8] sm:text-xs"
+          >
             Mida Travels
-          </p>
+          </motion.p>
 
-          <h2 className="mt-3 text-3xl font-bold md:text-4xl">
+          <h2 className="mt-2 text-2xl font-bold sm:text-3xl md:text-4xl">
             Trusted By Travelers
           </h2>
 
-          <p className="mt-4 text-sm leading-relaxed text-white/65 md:text-base">
-            Creating memorable journeys and unforgettable travel experiences
-            for travelers around the world.
+          <p className="mx-auto mt-2 max-w-md text-xs leading-5 text-white/55 sm:text-sm sm:leading-6">
+            Creating memorable journeys and unforgettable travel experiences.
           </p>
         </motion.div>
 
         {/* Stats */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{
-            once: true,
-            amount: 0.2,
-          }}
-          className="grid md:grid-cols-3"
-        >
+        <div className="grid grid-cols-3">
           {stats.map((stat, index) => (
             <motion.div
               key={stat.label}
-              variants={itemVariants}
-              whileHover={{
-                y: -6,
-              }}
+              initial={
+                reducedMotion
+                  ? false
+                  : {
+                      opacity: 0,
+                      y: 25,
+                    }
+              }
+              whileInView={
+                reducedMotion
+                  ? {}
+                  : {
+                      opacity: 1,
+                      y: 0,
+                    }
+              }
+              viewport={{ once: true, amount: 0.3 }}
               transition={{
-                type: "spring",
-                stiffness: 250,
-                damping: 20,
+                duration: 0.6,
+                delay: index * 0.12,
+                ease: [0.22, 1, 0.36, 1],
               }}
-              className={`
-                group
-                relative
-                flex
-                flex-col
-                items-center
-                px-6
-                py-6
-                text-center
-                md:py-4
-                ${
-                  index !== stats.length - 1
-                    ? "md:border-r md:border-white/10"
-                    : ""
-                }
-              `}
+              className={`group relative flex flex-col items-center px-2 text-center sm:px-6 ${
+                index !== stats.length - 1
+                  ? "border-r border-white/10"
+                  : ""
+              }`}
             >
               {/* Icon */}
               <motion.div
-                whileHover={{
-                  scale: 1.12,
-                  rotate: 5,
-                }}
+                initial={
+                  reducedMotion
+                    ? false
+                    : {
+                        opacity: 0,
+                        scale: 0.7,
+                        rotate: -10,
+                      }
+                }
+                whileInView={
+                  reducedMotion
+                    ? {}
+                    : {
+                        opacity: 1,
+                        scale: 1,
+                        rotate: 0,
+                      }
+                }
+                viewport={{ once: true }}
                 transition={{
+                  duration: 0.5,
+                  delay: index * 0.12 + 0.15,
                   type: "spring",
-                  stiffness: 300,
-                  damping: 15,
+                  stiffness: 200,
                 }}
-                className="
-                  flex
-                  h-16
-                  w-16
-                  items-center
-                  justify-center
-                  rounded-2xl
-                  bg-[#20B7C8]/10
-                  text-2xl
-                  text-[#20B7C8]
-                  transition-colors
-                  duration-300
-                  group-hover:bg-[#20B7C8]
-                  group-hover:text-white
-                "
+                whileHover={
+                  reducedMotion
+                    ? {}
+                    : {
+                        scale: 1.1,
+                        rotate: 5,
+                      }
+                }
+                className="flex h-11 w-11 items-center justify-center rounded-xl border border-[#20B7C8]/20 bg-[#20B7C8]/10 text-lg text-[#20B7C8] transition-all duration-300 group-hover:border-[#20B7C8]/40 group-hover:bg-[#20B7C8] group-hover:text-white sm:h-14 sm:w-14 sm:text-xl"
               >
                 <FontAwesomeIcon icon={stat.icon} />
               </motion.div>
 
               {/* Number */}
-              <h3
-                className="
-                  mt-6
-                  text-4xl
-                  font-bold
-                  tracking-tight
-                  text-white
-                  md:text-5xl
-                "
+              <motion.h3
+                initial={
+                  reducedMotion
+                    ? false
+                    : {
+                        opacity: 0,
+                        scale: 0.8,
+                      }
+                }
+                whileInView={
+                  reducedMotion
+                    ? {}
+                    : {
+                        opacity: 1,
+                        scale: 1,
+                      }
+                }
+                viewport={{ once: true }}
+                transition={{
+                  duration: 0.5,
+                  delay: index * 0.12 + 0.3,
+                }}
+                className="mt-3 text-2xl font-bold tracking-tight sm:mt-4 sm:text-4xl"
               >
                 {stat.number}
-              </h3>
+              </motion.h3>
 
               {/* Label */}
-              <p className="mt-2 text-sm font-medium text-white/60 md:text-base">
+              <p className="mt-1 max-w-[90px] text-[10px] font-medium leading-4 text-white/55 sm:max-w-none sm:text-sm">
                 {stat.label}
               </p>
 
-              {/* Small Accent */}
-              <div
-                className="
-                  mt-5
-                  h-1
-                  w-8
-                  rounded-full
-                  bg-[#20B7C8]
-                  transition-all
-                  duration-300
-                  group-hover:w-14
-                "
+              {/* Accent */}
+              <motion.div
+                initial={
+                  reducedMotion
+                    ? false
+                    : {
+                        width: 12,
+                        opacity: 0,
+                      }
+                }
+                whileInView={
+                  reducedMotion
+                    ? {}
+                    : {
+                        width: 24,
+                        opacity: 1,
+                      }
+                }
+                viewport={{ once: true }}
+                transition={{
+                  duration: 0.5,
+                  delay: index * 0.12 + 0.4,
+                }}
+                className="mt-3 h-0.5 rounded-full bg-[#20B7C8] transition-all duration-300 group-hover:w-10 sm:mt-4 sm:h-1"
               />
             </motion.div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );
