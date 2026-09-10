@@ -1,6 +1,29 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar as faStarSolid } from "@fortawesome/free-solid-svg-icons";
-import { faGoogle } from "@fortawesome/free-brands-svg-icons";
+
+// Official Google "G" mark, reproduced from Google's published brand
+// guidelines (four-color G). Use this instead of a monochrome icon font
+// glyph when representing Google specifically, per Google's brand rules.
+const GoogleLogo = ({ className = "h-5 w-5" }) => (
+  <svg viewBox="0 0 48 48" className={className} aria-hidden="true">
+    <path
+      fill="#4285F4"
+      d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"
+    />
+    <path
+      fill="#34A853"
+      d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"
+    />
+    <path
+      fill="#FBBC05"
+      d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88z"
+    />
+    <path
+      fill="#EA4335"
+      d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"
+    />
+  </svg>
+);
 
 const BRAND = {
   teal: "#1597A8",
@@ -105,23 +128,13 @@ const GoogleReviewCard = ({ review }) => (
           {getInitials(review.author)}
         </div>
         <div>
-          <h3
-            className="text-sm font-bold sm:text-base"
-            style={{ color: BRAND.navy }}
-          >
+          <h3 className="text-sm font-bold sm:text-base" style={{ color: BRAND.navy }}>
             {review.author}
           </h3>
-          <p className="text-xs" style={{ color: BRAND.teal }}>
-            {review.trip}
-          </p>
+          <p className="text-xs" style={{ color: BRAND.teal }}>{review.trip}</p>
         </div>
       </div>
-      <FontAwesomeIcon
-        icon={faGoogle}
-        aria-hidden="true"
-        className="text-base"
-        style={{ color: "#4285F4" }}
-      />
+      <GoogleLogo className="h-5 w-5" />
     </div>
 
     <StarRating rating={review.rating} size="mt-3 text-xs" />
@@ -149,18 +162,11 @@ const Testimonials = () => {
 
       <div className="relative mx-auto max-w-7xl">
         <div className="mx-auto max-w-2xl text-center">
-          <p
-            className="text-xs font-semibold uppercase tracking-[0.2em] sm:text-sm"
-            style={{ color: BRAND.teal }}
-          >
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] sm:text-sm" style={{ color: BRAND.teal }}>
             Memories Made With Mida
           </p>
 
-          <h2
-            id="testimonials-heading"
-            className="mt-3 text-3xl font-bold sm:mt-4 sm:text-4xl md:text-5xl"
-            style={{ color: BRAND.navy }}
-          >
+          <h2 id="testimonials-heading" className="mt-3 text-3xl font-bold sm:mt-4 sm:text-4xl md:text-5xl" style={{ color: BRAND.navy }}>
             Our Happy Travellers
           </h2>
 
@@ -175,17 +181,9 @@ const Testimonials = () => {
             rel="noopener noreferrer"
             className="mx-auto mt-6 flex w-fit items-center gap-3 rounded-2xl border border-gray-100 bg-white px-5 py-3 shadow-sm transition hover:shadow-md sm:mt-8 sm:gap-4 sm:px-6 sm:py-4"
           >
-            <FontAwesomeIcon
-              icon={faGoogle}
-              aria-hidden="true"
-              className="text-2xl sm:text-3xl"
-              style={{ color: "#4285F4" }}
-            />
+            <GoogleLogo className="h-7 w-7 sm:h-8 sm:w-8" />
             <div className="h-8 w-px bg-gray-200" aria-hidden="true" />
-            <span
-              className="text-2xl font-bold sm:text-3xl"
-              style={{ color: BRAND.navy }}
-            >
+            <span className="text-2xl font-bold sm:text-3xl" style={{ color: BRAND.navy }}>
               {rating.toFixed(1)}
             </span>
             <div className="text-left">
