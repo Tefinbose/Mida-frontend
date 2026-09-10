@@ -198,8 +198,8 @@ const REGIONS = [
   ...new Set(PACKAGES.map((pkg) => pkg.region)),
 ];
 
-const WHATSAPP_NUMBER = "919876543210";
-const CALL_NUMBER = "+919876543210";
+const WHATSAPP_NUMBER = "2345654586";
+const CALL_NUMBER = "+5645123645";
 
 const parsePrice = (price) =>
   price === "Contact Us" ? Infinity : Number(price.replace(/[^\d]/g, ""));
