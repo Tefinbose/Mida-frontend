@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 
-const SLIDE_DURATION =4000;
+const SLIDE_DURATION = 4000;
 
 const slides = [
   {
@@ -58,14 +58,13 @@ const Hero = () => {
   const next = useCallback(() => goTo(currentSlide + 1), [currentSlide, goTo]);
   const prev = useCallback(() => goTo(currentSlide - 1), [currentSlide, goTo]);
 
-  // Automatic slider — always advances, regardless of hover/focus
   useEffect(() => {
     const interval = setInterval(next, SLIDE_DURATION);
     return () => clearInterval(interval);
   }, [next]);
 
   return (
-    <section className="relative h-screen overflow-hidden bg-[#0C2530]">
+    <section className="relative h-[100svh] min-h-[560px] overflow-hidden bg-[#0C2530]">
       {/* Slides — stacked and crossfaded, each with a slow Ken Burns zoom */}
       {slides.map((slide, index) => (
         <div
@@ -87,64 +86,85 @@ const Hero = () => {
         </div>
       ))}
 
-      {/* Gradient overlay — heavier at the bottom for text/control legibility */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/35 to-black/70" />
+      {/* Gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/75" />
 
       {/* Content */}
-      <div className="relative z-10 flex h-full items-center justify-center px-6 text-center text-white">
-        <div className="max-w-4xl" aria-live="polite">
-          <p
-            key={`eyebrow-${currentSlide}`}
-            className="mb-5 animate-[fade-in-up_0.6s_ease-out] text-sm font-semibold uppercase tracking-[0.3em] text-[#20B7C8] md:text-base"
+      <div className="relative z-10 flex h-full flex-col items-center justify-center px-6 pb-20 text-center text-white sm:pb-16">
+        <div className="max-w-3xl" aria-live="polite">
+          {/* Kicker badge — a small pill instead of tracked-out all-caps text,
+              so it reads as a label rather than adding another wide line */}
+          <span
+            key={`kicker-${currentSlide}`}
+            className="inline-flex animate-[fade-in-up_0.6s_ease-out] items-center gap-2 rounded-full border border-white/25 bg-white/10 px-3 py-1 text-xs font-medium text-white/90 backdrop-blur-sm sm:text-sm"
           >
-            Welcome To Mida Travels
-          </p>
+            <span className="h-1.5 w-1.5 rounded-full bg-[#20B7C8]" />
+            Welcome to Mida Travels
+          </span>
 
           <h1
             key={`title-${currentSlide}`}
-            className="animate-[fade-in-up_0.6s_ease-out_0.1s_both] text-4xl font-bold leading-tight md:text-6xl lg:text-7xl"
+            className="mt-5 animate-[fade-in-up_0.6s_ease-out_0.1s_both] text-3xl font-bold leading-[1.15] sm:mt-6 sm:text-5xl lg:text-6xl"
           >
             {slides[currentSlide].title}
           </h1>
 
           <p
             key={`subtitle-${currentSlide}`}
-            className="mx-auto mt-6 max-w-2xl animate-[fade-in-up_0.6s_ease-out_0.2s_both] text-base leading-relaxed text-gray-200 md:text-lg"
+            className="mx-auto mt-4 max-w-xl animate-[fade-in-up_0.6s_ease-out_0.2s_both] text-sm leading-relaxed text-gray-200 sm:mt-5 sm:text-base"
           >
             {slides[currentSlide].subtitle}
           </p>
 
-          <div className="mt-8 flex flex-col justify-center gap-4 sm:flex-row">
-            {/* Explore Packages */}
+          {/* Both CTAs share identical height/padding so their centers line
+              up exactly — a text-link paired with a filled pill button
+              rarely aligns cleanly since the two have different box heights. */}
+          <div className="mt-7 flex flex-wrap items-center justify-center gap-3 sm:mt-9 sm:gap-4">
             <Link
               to="/packages"
-              className="group relative overflow-hidden rounded-full bg-[#1597A8] px-7 py-3 font-semibold text-white transition hover:bg-[#20B7C8]"
+              className="group inline-flex h-11 items-center justify-center rounded-full bg-[#1597A8] px-6 text-sm font-semibold leading-none text-white transition hover:bg-[#20B7C8] sm:h-12 sm:px-7 sm:text-base"
             >
               <span className="relative block overflow-hidden">
-                <span className="block transition-transform duration-300 ease-[cubic-bezier(0.44,0.0,0.56,1)] group-hover:-translate-y-full">
+                {/* Normal Text */}
+                <span className="block transition-transform duration-300 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
                   Explore Packages
                 </span>
-                <span className="absolute left-0 top-full block transition-transform duration-300 ease-[cubic-bezier(0.44,0.0,0.56,1)] group-hover:-translate-y-full">
+
+                {/* Hover Text */}
+                <span className="absolute left-0 top-full block w-full transition-transform duration-300 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
                   Explore Packages
                 </span>
               </span>
             </Link>
 
-            {/* Plan Your Journey */}
             <Link
               to="/contact"
-              className="group relative overflow-hidden rounded-full border border-white px-7 py-3 font-semibold text-white transition hover:bg-white hover:text-[#123B4A]"
+              className="group inline-flex h-11 items-center justify-center gap-1.5 rounded-full border border-white/70 px-6 text-sm font-semibold leading-none text-white transition hover:bg-white hover:text-[#123B4A] sm:h-12 sm:px-7 sm:text-base"
             >
               <span className="relative block overflow-hidden">
-                <span className="block transition-transform duration-300 ease-[cubic-bezier(0.44,0.0,0.56,1)] group-hover:-translate-y-full">
+                {/* Normal Text */}
+                <span className="block transition-transform duration-300 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
                   Plan Your Journey
                 </span>
-                <span className="absolute left-0 top-full block transition-transform duration-300 ease-[cubic-bezier(0.44,0.0,0.56,1)] group-hover:-translate-y-full">
+
+                {/* Hover Text */}
+                <span className="absolute left-0 top-full block w-full transition-transform duration-300 ease-[cubic-bezier(0.44,0,0.56,1)] group-hover:-translate-y-full">
                   Plan Your Journey
                 </span>
               </span>
+              <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4 shrink-0 transition group-hover:translate-x-0.5">
+                <path d="M9 6l6 6-6 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
             </Link>
           </div>
+
+          {/* Small trust cue — light-touch, ties back to the Google reviews already on the site */}
+          <p
+            key={`trust-${currentSlide}`}
+            className="mt-5 animate-[fade-in-up_0.6s_ease-out_0.3s_both] text-xs text-white/70 sm:text-sm"
+          >
+            Rated 4.9 by 500+ travellers
+          </p>
         </div>
       </div>
 
@@ -171,7 +191,7 @@ const Hero = () => {
       </button>
 
       {/* Slide indicators with autoplay progress */}
-      <div className="absolute bottom-10 left-1/2 z-20 flex -translate-x-1/2 gap-3">
+      <div className="absolute bottom-6 left-1/2 z-20 flex -translate-x-1/2 gap-3 sm:bottom-8">
         {slides.map((slide, index) => (
           <button
             key={slide.image}
@@ -195,14 +215,6 @@ const Hero = () => {
           </button>
         ))}
       </div>
-
-      Scroll cue
-      {/* <div className="absolute bottom-24 left-1/2 z-20 hidden -translate-x-1/2 flex-col items-center gap-2 text-white/70 sm:flex">
-        <span className="text-[11px] font-medium uppercase tracking-[0.25em]">Scroll</span>
-        <span className="h-8 w-5 rounded-full border border-white/40 p-1">
-          <span className="block h-1.5 w-1.5 animate-bounce rounded-full bg-white/80" />
-        </span>
-      </div> */}
 
       <style>{`
         @keyframes fade-in-up {
